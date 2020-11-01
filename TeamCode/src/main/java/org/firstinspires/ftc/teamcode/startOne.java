@@ -64,12 +64,11 @@ public class startOne extends LinearOpMode {
         waitForStart();
         updateScreen();
 
-        goToPosition(871, 0.25, 5);
 
         switch (ringState) {
             case 0:
                 //Go to A
-                //  goToPosition(871, 0.25, 5);
+                 goToPosition(871, 0.25, 5);
                   //goToPosition(3600, 0.25, 3);
                 break;
             case 1:

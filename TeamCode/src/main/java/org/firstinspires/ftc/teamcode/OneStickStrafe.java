@@ -2,10 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 
 @TeleOp(name = "Teleop1", group = "Training")
 public class OneStickStrafe extends OpMode {
@@ -18,7 +17,7 @@ public class OneStickStrafe extends OpMode {
     DcMotor frontLeftMotor;
     DcMotor frontRightMotor;
     DcMotor Shooter;
-    //DcMotor Intake;
+    DcMotor Intake;
 
     double rightStraffPower;
     double leftStraffPower;
@@ -27,8 +26,9 @@ public class OneStickStrafe extends OpMode {
     boolean shooter50;
     boolean shooter100;
     boolean shooterOff;
-    boolean intakeOn;
-    boolean intakeOff;
+    boolean isIntakeOn;
+    boolean IntakeON;
+    //boolean intakeOff;
     boolean foundationUp;
     boolean foundationDown;
     boolean straffOn;
@@ -42,7 +42,9 @@ public class OneStickStrafe extends OpMode {
     double y;
     boolean shooter;
     int count = 0;
+    int count2 = 0;
     boolean hascount = false;
+    boolean hasToggled = false;
 
    /*CRServo lIntake;
     CRServo rIntake;
@@ -62,7 +64,7 @@ public class OneStickStrafe extends OpMode {
         backRightMotor = hardwareMap.dcMotor.get("bottomRight");
         backLeftMotor = hardwareMap.dcMotor.get("bottomLeft");
         Shooter = hardwareMap.dcMotor.get("shooter");
-        // Intake = hardwareMap.dcMotor.get("intake"); //this is a place holder for intake
+        Intake = hardwareMap.dcMotor.get("intake"); //this is a place holder for intake
 
         // rIntake = hardwareMap.crservo.get("Right Intake");
         //lIntake = hardwareMap.crservo.get("left intake servo");
@@ -101,11 +103,13 @@ public class OneStickStrafe extends OpMode {
         // intakeRev = gamepad1.a;
         foundationDown = gamepad2.left_bumper;
         foundationUp = gamepad2.right_bumper;
+        IntakeON = gamepad1.a;
+
 
         if (gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right) {
             if (gamepad1.dpad_up) {
                 if (hascount == false) {
-                    if(count < 3) {
+                    if (count < 3) {
                         hascount = true;
                         count = count + 1;
                     }
@@ -132,52 +136,54 @@ public class OneStickStrafe extends OpMode {
                 }
             }
 
-            }
+        }
         if (!gamepad1.dpad_up && !gamepad1.dpad_down && !gamepad1.dpad_left && !gamepad1.dpad_right) {
             hascount = false;
-            if (count == 4){
+            if (count == 4) {
                 count = 0;
             }
         }
-         switch (count) {
-                case 1:
-                        Shooter.setPower(0.25);
-                case 2:
-                        Shooter.setPower(0.5);
-                case 3:
-                        Shooter.setPower(1);
-                case 4:
-                        Shooter.setPower(0);
-            }
+        switch (count) {
+            case 1:
+                Shooter.setPower(0.25);
+            case 2:
+                Shooter.setPower(0.5);
+            case 3:
+                Shooter.setPower(1);
+            case 4:
+                Shooter.setPower(0);
+        }
 
-        telemetry.addData("Count", count);
-        telemetry.addData("hasCount",hascount);
+        telemetry.addData("toggle", hasToggled);
+        telemetry.addData("hasCount", hascount);
+        telemetry.addData("isIntakeon", isIntakeOn);
         telemetry.update();
-    }
 
+        //This is a place holder for when we add the intake motor
+
+        if (IntakeON && isIntakeOn == false && hasToggled == false) {
+            isIntakeOn = true;
+            Intake.setPower(1);
+        }
+        if (IntakeON && isIntakeOn && hasToggled == true) {
+            isIntakeOn = false;
+            Intake.setPower(0);
+        }
+        if (IntakeON == false && isIntakeOn) {
+            hasToggled = true;
+        }
+        if (IntakeON == false && isIntakeOn == false) {
+            hasToggled = false;
+        }
+    }
 }
 
 
-        /*if (shooter100) {
-
-
-        }
-        if (shooterOff) {
-            Shooter.setPower(0);
 
 
 
-        if (shooter50){
-            Shooter.setPower(.5);*/
 
-       /*This is a place holder for when we add the intake motor
 
-       if (intakeOn) {
-            Intake.setPower(1);
-
-        }
-        if (intakeOff) {
-            Intake.setPower(0);*/
 
 
 

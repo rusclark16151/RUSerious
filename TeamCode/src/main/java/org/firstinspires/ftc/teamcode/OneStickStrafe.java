@@ -27,6 +27,10 @@ public class OneStickStrafe extends OpMode {
     boolean hasToggled = false;
     double servoMax = 0.5;
     double servoMin = 0.0;
+    boolean dpadUp;
+    boolean dpadDown;
+    boolean dpadRight;
+    boolean dpadLeft;
 
     @Override
     public void init() {
@@ -47,17 +51,22 @@ public class OneStickStrafe extends OpMode {
         y = gamepad1.left_stick_y;
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
-        frontLeftMotor.setPower(-0.25 * (y - x + rx));
-        backLeftMotor.setPower(0.25 * (y - x + rx));
-        frontRightMotor.setPower(-0.25 * (y + x - rx));
-        backRightMotor.setPower(0.25 * (y + x - rx));
+        frontLeftMotor.setPower(-1 * (y - x + rx));
+        backLeftMotor.setPower(1 * (y - x + rx));
+        frontRightMotor.setPower(-1 * (y + x - rx));
+        backRightMotor.setPower(1 * (y + x - rx));
 
-        trigger = gamepad1.right_trigger;
-        IntakeON = gamepad1.a;
+        trigger = gamepad2.right_trigger;
+        IntakeON = gamepad2.a;
+
+        dpadUp = gamepad2.dpad_up;
+        dpadDown = gamepad2.dpad_down;
+        dpadRight = gamepad2.dpad_right;
+        dpadLeft = gamepad2.dpad_left;
 
 
-        if (gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right) {
-            if (gamepad1.dpad_up) {
+        if (dpadUp || dpadDown || dpadLeft || dpadRight) {
+            if (dpadUp) {
                 if (hascount == false) {
                     if (count < 3) {
                         hascount = true;
@@ -65,7 +74,7 @@ public class OneStickStrafe extends OpMode {
                     }
                 }
             }
-            if (gamepad1.dpad_down) {
+            if (dpadDown) {
                 if (hascount == false) {
                     if (count > 0) {
                         hascount = true;
@@ -73,13 +82,13 @@ public class OneStickStrafe extends OpMode {
                     }
                 }
             }
-            if (gamepad1.dpad_right) {
+            if (dpadRight) {
                 if (hascount == false) {
                     hascount = true;
                     count = 3;
                 }
             }
-            if (gamepad1.dpad_left) {
+            if (dpadLeft) {
                 if (hascount == false) {
                     hascount = true;
                     count = 4;
@@ -87,8 +96,8 @@ public class OneStickStrafe extends OpMode {
             }
 
         }
-        if (!gamepad1.dpad_up && !gamepad1.dpad_down &&
-                !gamepad1.dpad_left && !gamepad1.dpad_right) {
+        if (!dpadUp && !dpadDown &&
+                !dpadLeft && !dpadRight) {
             hascount = false;
             if (count == 4) {
                 count = 0;

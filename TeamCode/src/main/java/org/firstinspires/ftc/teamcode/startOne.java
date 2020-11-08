@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -27,6 +28,15 @@ public class startOne extends LinearOpMode {
     int newRightTarget;
     int newLeftTarget;
     int ringState = 0;
+    double servoMax = 0.5;
+    double servoMin = 0.0;
+    float trigger;
+    Servo hammer;
+    DcMotor shooter;
+    DcMotor intake;
+
+
+
     //short
 
     String howManyRings;
@@ -51,6 +61,10 @@ public class startOne extends LinearOpMode {
              */
 
         moveClark.hardwareSetup(hardwareMap);
+        hammer = hardwareMap.servo.get("hammer");
+        shooter = hardwareMap.dcMotor.get("shooter");
+        intake = hardwareMap.dcMotor.get("intake");
+
         //TF.tensorFlowMain(hardwareMap);
         initVuforia();
         initTfod();
@@ -81,6 +95,8 @@ public class startOne extends LinearOpMode {
                 //   goToPosition(5300, 0.25, 3);
                 break;
         }
+        trigger();
+        trigger();
     }
 
     public void encoders(int target, double speed, int state) throws InterruptedException {
@@ -221,5 +237,16 @@ public class startOne extends LinearOpMode {
             encoders(Ptarget, Pspeed, 5);
         }
     }
+    public void trigger(){
+        shooter.setPower(0.25);
+        sleep(1000);
+        hammer.setPosition(servoMax);
+        sleep( 3000);
+        shooter.setPower(0);
+        hammer.setPosition(servoMin);
+        intake.setPower(0.25);
+        sleep(1000);
+    }
 }
+
 

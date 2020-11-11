@@ -34,6 +34,7 @@ public class startOne extends LinearOpMode {
     Servo hammer;
     DcMotor shooter;
     DcMotor intake;
+    int shooterOn = 0;
 
 
 
@@ -238,14 +239,20 @@ public class startOne extends LinearOpMode {
         }
     }
     public void trigger(){
-        shooter.setPower(0.25);
-        sleep(1000);
-        hammer.setPosition(servoMax);
-        sleep( 3000);
+        runtime.reset();
+        runtime.startTime();
+        while (runtime.milliseconds() <= 5500){
+            shooter.setPower(0.25);
+            if (runtime.milliseconds() > 3000){
+                hammer.setPosition(servoMax);
+            }
+            if (runtime.milliseconds() > 5000){
+                hammer.setPosition(servoMin);
+            }
+        }
         shooter.setPower(0);
-        hammer.setPosition(servoMin);
+        sleep(500);
         intake.setPower(0.25);
-        sleep(1000);
     }
 }
 

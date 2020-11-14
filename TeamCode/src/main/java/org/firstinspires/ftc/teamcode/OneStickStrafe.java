@@ -31,6 +31,10 @@ public class OneStickStrafe extends OpMode {
     boolean dpadDown;
     boolean dpadRight;
     boolean dpadLeft;
+    double g1L;
+    double g1R;
+    double g2L;
+    double g2R;
 
     @Override
     public void init() {
@@ -48,13 +52,23 @@ public class OneStickStrafe extends OpMode {
     //this is the main loop for the teleOP program when play is pressed
     @Override
     public void loop() {
-        y = gamepad1.left_stick_y;
+       /* g1L = gamepad1.left_stick_y;
+        g1R = gamepad1.right_stick_y;
+        g2L = gamepad2.left_stick_y;
+        g2R = gamepad2.right_stick_y;*/
+
+       /* frontLeftMotor.setPower(g1R);
+        backLeftMotor.setPower(g1L);
+        frontRightMotor.setPower(g2L);
+        backRightMotor.setPower(g2R);*/
+
+       y = gamepad1.left_stick_y;
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
-        frontLeftMotor.setPower(-1 * (y - x + rx));
-        backLeftMotor.setPower(1 * (y - x + rx));
-        frontRightMotor.setPower(-1 * (y + x - rx));
-        backRightMotor.setPower(1 * (y + x - rx));
+        frontLeftMotor.setPower(-1 * (y + x + rx));
+        backLeftMotor.setPower(1 * (y + x - rx));
+        frontRightMotor.setPower(-1 * (y - x + rx));
+        backRightMotor.setPower(1 * (y - x - rx));
 
         trigger = gamepad2.right_trigger;
         IntakeON = gamepad2.a;
@@ -116,7 +130,7 @@ public class OneStickStrafe extends OpMode {
 
         telemetry.addData("servoPosition", hammerServo.getPosition());
         telemetry.addData("hasCount", hascount);
-        telemetry.addData("isIntakeon", isIntakeOn);
+        telemetry.addData("isIntakeOn", isIntakeOn);
         telemetry.update();
 
         //This code turns the intake ON and OFF

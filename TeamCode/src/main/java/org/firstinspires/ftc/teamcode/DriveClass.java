@@ -33,8 +33,8 @@ public class DriveClass {
         topRight = hwMap.dcMotor.get("topRight");
         bottomRight = hwMap.dcMotor.get("bottomRight");
         bottomLeft = hwMap.dcMotor.get("bottomLeft");
-        bottomLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        topLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        bottomRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        topRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
            /*This all works. Do not change it. This is what I used to begin with.

@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Teleop1", group = "Training")
 public class OneStickStrafe extends OpMode {
@@ -15,6 +17,7 @@ public class OneStickStrafe extends OpMode {
     DcMotor Shooter;
     DcMotor Intake;
     Servo hammerServo;
+    Servo wobbleServo;
 
     boolean isIntakeOn;
     boolean IntakeON;
@@ -25,12 +28,13 @@ public class OneStickStrafe extends OpMode {
     int count = 0;
     boolean hascount = false;
     boolean hasToggled = false;
-    double servoMax = 0.5;
-    double servoMin = 0.0;
+    double servoMax = 0.3;
+    double servoMin = 0.5;
     boolean dpadUp;
     boolean dpadDown;
     boolean dpadRight;
     boolean dpadLeft;
+    private ElapsedTime runtime = new ElapsedTime();
     double g1L;
     double g1R;
     double g2L;
@@ -46,7 +50,12 @@ public class OneStickStrafe extends OpMode {
         Shooter = hardwareMap.dcMotor.get("shooter");
         Intake = hardwareMap.dcMotor.get("intake");
         hammerServo = hardwareMap.servo.get("hammer");
+        wobbleServo = hardwareMap.servo.get("wobble");
 
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        Intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     //this is the main loop for the teleOP program when play is pressed
@@ -62,15 +71,20 @@ public class OneStickStrafe extends OpMode {
         frontRightMotor.setPower(g2L);
         backRightMotor.setPower(g2R);*/
 
-       y = gamepad1.left_stick_y;
+        y = gamepad1.left_stick_y;
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
-        frontLeftMotor.setPower(-1 * (y + x + rx));
-        backLeftMotor.setPower(1 * (y + x - rx));
-        frontRightMotor.setPower(-1 * (y - x + rx));
-        backRightMotor.setPower(1 * (y - x - rx));
+        /*frontLeftMotor.setPower(-1 * (y + x + rx));
+        backLeftMotor.setPower(-1 * (y + x - rx));
+        frontRightMotor.setPower(1 * (y - x + rx));
+        backRightMotor.setPower(1 * (y - x - rx));*/
 
-        trigger = gamepad2.right_trigger;
+        frontLeftMotor.setPower(y - x - rx);
+        backLeftMotor.setPower(y + x - rx);
+        frontRightMotor.setPower(y + x + rx);
+        backRightMotor.setPower(y -  x + rx);
+
+
         IntakeON = gamepad2.a;
 
         dpadUp = gamepad2.dpad_up;
@@ -83,6 +97,19 @@ public class OneStickStrafe extends OpMode {
             if (dpadUp) {
                 if (hascount == false) {
                     if (count < 3) {
+                        runtime.reset();
+                        runtime.startTime();
+                        //Shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+                        while (runtime.milliseconds() <= 250 && count == 0){
+                            Shooter.setPower(0.05);
+                        }
+                        Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+                        /*runtime.reset();
+                        runtime.startTime();
+                        if (runtime.milliseconds() <= 500){
+                            Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+                            Shooter.setPower(1);
+                        }*/
                         hascount = true;
                         count = count + 1;
                     }
@@ -106,11 +133,12 @@ public class OneStickStrafe extends OpMode {
                 if (hascount == false) {
                     hascount = true;
                     count = 4;
+                    Shooter.setPower(0);
                 }
             }
 
         }
-        if (!dpadUp && !dpadDown &&
+       if (!dpadUp && !dpadDown &&
                 !dpadLeft && !dpadRight) {
             hascount = false;
             if (count == 4) {
@@ -118,19 +146,31 @@ public class OneStickStrafe extends OpMode {
             }
         }
         switch (count) {
-            case 1:
-                Shooter.setPower(0.25);
-            case 2:
-                Shooter.setPower(0.5);
             case 3:
                 Shooter.setPower(1);
-            case 4:
-                Shooter.setPower(0);
+                telemetry.addData("Shooter", Shooter.getPower());
+                break;
+            case 2:
+                Shooter.setPower(0.75);
+                telemetry.addData("Shooter", Shooter.getPower());
+                break;
+            case 1:
+                Shooter.setPower(0.5);
+                telemetry.addData("Shooter", Shooter.getPower());
+                break;
+            //case 4:
+              //  Shooter.setPower(0);
         }
 
         telemetry.addData("servoPosition", hammerServo.getPosition());
+        telemetry.addData("count", count);
         telemetry.addData("hasCount", hascount);
-        telemetry.addData("isIntakeOn", isIntakeOn);
+
+/*      telemetry.addData("FLM", frontLeftMotor.getPower());
+        telemetry.addData("BLM", backLeftMotor.getPower());
+        telemetry.addData("FRM", frontRightMotor.getPower());
+        telemetry.addData("BRM", backRightMotor.getPower());*/
+        //telemetry.addData("Shooter", Shooter.getPower());
         telemetry.update();
 
         //This code turns the intake ON and OFF
@@ -150,12 +190,22 @@ public class OneStickStrafe extends OpMode {
             hasToggled = false;
         }
 
+        //setting trigger
+        trigger = gamepad2.right_trigger;
+
         //this code is used for the trigger
         if (trigger > 0) {
             hammerServo.setPosition(servoMax);
         }
         else {
             hammerServo.setPosition(servoMin);
+        }
+        if (gamepad2.y){
+            wobbleServo.setPosition(.25);
+
+        }
+        else {
+            wobbleServo.setPosition(0);
         }
     }
 }

@@ -24,7 +24,7 @@ public class startOne extends LinearOpMode {
     DriveClass moveClark = new DriveClass();
     //TensorFlowWebcam TF = new TensorFlowWebcam();
     private ElapsedTime runtime = new ElapsedTime();
-    int timeoutS = 5000;
+    int timeoutS = 2000;
     int newRightTarget;
     int newLeftTarget;
     int ringState = 0;
@@ -71,34 +71,39 @@ public class startOne extends LinearOpMode {
          **/
         if (tfod != null) {
             tfod.activate();
+            tfod.setZoom(4, 1.78);
         }
+
         waitForStart();
         updateScreen();
 
-
+        wobbleServo.setPosition(0);
         switch (ringState) {
             case 0:
                 //Go to A
-                 goToPosition(100, 0.25, 7);
-                 goToPosition(3600, 0.25, 3);
-                //setWobble();
-                break;
+                // goToPosition(200, 0.25, 7);
+                /* goToPosition(2500, 0.25, 3);
+                 sleep(1000);
+                 goToPosition(1800, .25, 4);
+                 sleep(500);
+                setWobble();
+                break;*/
             case 1:
                 //Go to B
                 goToPosition(100, 0.25, 7);
-                goToPosition(871, 0.25, 4);
-                goToPosition(4516, 0.25, 3);
+               // goToPosition(871, 0.25, 4);
+               // goToPosition(4516, 0.25, 3);
                 //setWobble();
                 break;
-            case 2:
+            /*case 2:
                 //Go to C
                 goToPosition(100, 0.25, 7);
                 goToPosition(5300, 0.25, 3);
                 //setWobble();
-                break;
+                break;*/
         }
-        trigger();
-        trigger();
+        //trigger();
+       // trigger();
     }
 
     public void encoders(int target, double speed, int state) throws InterruptedException {
@@ -122,7 +127,7 @@ public class startOne extends LinearOpMode {
             moveClark.bottomLeft.setTargetPosition(target);
             moveClark.speed = speed;
         }
-        //this is for strafe right
+        //this is for strafe left
         if (state == 4) {
             moveClark.topRight.setTargetPosition(target);
             moveClark.topLeft.setTargetPosition(-target);
@@ -131,7 +136,7 @@ public class startOne extends LinearOpMode {
             moveClark.speed = speed;
             moveClark.encoderMove(3);
         }
-        //this is for strafe left
+        //this is for strafe right
         if (state == 5) {
             moveClark.topRight.setTargetPosition(-target);
             moveClark.topLeft.setTargetPosition(target);
@@ -142,19 +147,19 @@ public class startOne extends LinearOpMode {
         }
         //this is for right pivot
         if (state == 6) {
-            moveClark.topRight.setTargetPosition(target);
-            moveClark.topLeft.setTargetPosition(0);
-            moveClark.bottomRight.setTargetPosition(target);
-            moveClark.bottomLeft.setTargetPosition(0);
+            moveClark.topRight.setTargetPosition(0);
+            moveClark.topLeft.setTargetPosition(target);
+            moveClark.bottomRight.setTargetPosition(0);
+            moveClark.bottomLeft.setTargetPosition(target);
             moveClark.speed = speed;
             moveClark.encoderMove(3);
         }
         // this is for left pivot
         if (state == 7) {
-            moveClark.topRight.setTargetPosition(0);
-            moveClark.topLeft.setTargetPosition(target);
-            moveClark.bottomRight.setTargetPosition(0);
-            moveClark.bottomLeft.setTargetPosition(target);
+            moveClark.topRight.setTargetPosition(-target);
+            moveClark.topLeft.setTargetPosition(0);
+            moveClark.bottomRight.setTargetPosition(-target);
+            moveClark.bottomLeft.setTargetPosition(0);
             moveClark.speed = speed;
             moveClark.encoderMove(3);
         }
@@ -300,11 +305,11 @@ public class startOne extends LinearOpMode {
             encoders(Ptarget, Pspeed, 9);
         }
     }
-    public void trigger(){
+  /*  public void trigger(){
         runtime.reset();
         runtime.startTime();
         while (runtime.milliseconds() <= 5500){
-            shooter.setPower(0.25);
+            shooter.setPower(1);
             if (runtime.milliseconds() > 3000){
                 hammer.setPosition(servoMax);
             }
@@ -314,8 +319,8 @@ public class startOne extends LinearOpMode {
         }
         shooter.setPower(0);
         sleep(500);
-        intake.setPower(0.25);
-    }
+       // intake.setPower(0.25);*/
+   // }
     public void setWobble(){
         wobbleServo.setPosition(1);
     }

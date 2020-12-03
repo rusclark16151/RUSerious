@@ -24,18 +24,19 @@ public class startOne extends LinearOpMode {
     DriveClass moveClark = new DriveClass();
     //TensorFlowWebcam TF = new TensorFlowWebcam();
     private ElapsedTime runtime = new ElapsedTime();
-    int timeoutS = 2000;
+    int timeoutS = 5000;
     int newRightTarget;
     int newLeftTarget;
     int ringState = 0;
-    double servoMax = 0.5;
-    double servoMin = 0.0;
+    double servoMax = 0.25;
+    double servoMin = 0.5;
     float trigger;
     Servo hammer;
     DcMotor shooter;
     DcMotor intake;
     int shooterOn = 0;
     Servo wobbleServo;
+    boolean toggle = false;
 
 
 
@@ -71,39 +72,69 @@ public class startOne extends LinearOpMode {
          **/
         if (tfod != null) {
             tfod.activate();
-            tfod.setZoom(4, 1.78);
+            tfod.setZoom(2.5, 1.78);
         }
 
         waitForStart();
-        updateScreen();
 
-        wobbleServo.setPosition(0);
-        switch (ringState) {
-            case 0:
-                //Go to A
-                // goToPosition(200, 0.25, 7);
-                /* goToPosition(2500, 0.25, 3);
-                 sleep(1000);
-                 goToPosition(1800, .25, 4);
-                 sleep(500);
-                setWobble();
-                break;*/
-            case 1:
-                //Go to B
-                goToPosition(100, 0.25, 7);
-               // goToPosition(871, 0.25, 4);
-               // goToPosition(4516, 0.25, 3);
-                //setWobble();
-                break;
-            /*case 2:
-                //Go to C
-                goToPosition(100, 0.25, 7);
-                goToPosition(5300, 0.25, 3);
-                //setWobble();
-                break;*/
+
+//Main Code uncomment
+
+
+        if (toggle == true) {
+            trigger();
         }
-        //trigger();
-       // trigger();
+        if (toggle == false) {
+            goToPosition(500, 0.25, 4);
+            sleep(1000);
+            updateScreen();
+            telemetry.addData(String.format("ringtype"), ringState);
+            telemetry.update();
+            sleep(1000);
+            updateScreen();
+            wobbleServo.setPosition(0);
+            switch (ringState) {
+                case 0:
+                    //Go to A
+                    goToPosition(2750, 0.5, 3);
+                    sleep(500);
+                    goToPosition(1200, 0.25, 4);
+                    setWobble();
+                    goToPosition(-150, 0.25, 3);
+                    goToPosition(3100, 0.5, 5);
+                   // goToPosition(670, 0.5, 3);
+                    trigger();
+                    sleep(250);
+                    goToPosition(400, .5, 3);
+                    break;
+                case 1:
+                    //Go to B
+                    goToPosition(600, 0.25, 5);
+                    goToPosition(3350, 0.5, 3);
+                    goToPosition(600, 0.25, 4);
+                    setWobble();
+                    sleep(500);
+                    goToPosition(-720, 0.25, 3);
+                    goToPosition(1600, 0.25, 5);
+                    trigger();
+                    goToPosition(400, 0.25, 3);
+                    break;
+                case 2:
+                    //Go to C
+                    goToPosition(900, 0.25, 5);
+                    goToPosition(4800, 0.5, 3);
+                    goToPosition(2200, 0.25, 4);
+                    sleep(250);
+                    setWobble();
+                    sleep(500);
+                    goToPosition(-2000, 0.5, 3);
+                    goToPosition(2700, 0.5, 5);
+                    trigger();
+                    goToPosition(400, .5, 3);
+                    break;
+            }
+
+        }
     }
 
     public void encoders(int target, double speed, int state) throws InterruptedException {
@@ -111,8 +142,8 @@ public class startOne extends LinearOpMode {
             state 1 = stop and reset encoders
             state 2 = set target position
             state 3 = run to position
-            state 4 = strafe right
-            state 5 = strafe left
+            state 4 = strafe left
+            state 5 = strafe right
             state 6 = pivot right
             state 7 = pivot left
             state 8 = point turn right
@@ -235,9 +266,9 @@ public class startOne extends LinearOpMode {
     public void updateScreen() {
 
         /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode");
+      /*  telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
-        //waitForStart();
+      */  //waitForStart();
 
         runtime.reset();
         while (runtime.milliseconds() < timeoutS) {
@@ -264,7 +295,7 @@ public class startOne extends LinearOpMode {
                             case "Quad":
                                 ringState = 2;
                                 telemetry.addData(String.format("ringType Quad (%d)", i), ringState);
-                                break;
+                               break;
                         }
                     }
                     telemetry.update();
@@ -305,23 +336,24 @@ public class startOne extends LinearOpMode {
             encoders(Ptarget, Pspeed, 9);
         }
     }
-  /*  public void trigger(){
+    public void trigger(){
         runtime.reset();
-        runtime.startTime();
         while (runtime.milliseconds() <= 5500){
-            shooter.setPower(1);
-            if (runtime.milliseconds() > 3000){
+            shooter.setPower(-1);
+            if (runtime.milliseconds() > 3000 && runtime.milliseconds() < 3500){
+            //    intake.setPower(-1);
+               // sleep(200);
                 hammer.setPosition(servoMax);
             }
-            if (runtime.milliseconds() > 5000){
+            if (runtime.milliseconds() > 4800){
                 hammer.setPosition(servoMin);
             }
         }
         shooter.setPower(0);
         sleep(500);
-       // intake.setPower(0.25);*/
-   // }
-    public void setWobble(){
+       // intake.setPower(0.25);
+    }
+    public void setWobble() {
         wobbleServo.setPosition(1);
     }
 }

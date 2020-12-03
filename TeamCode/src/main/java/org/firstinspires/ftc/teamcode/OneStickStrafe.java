@@ -21,6 +21,9 @@ public class OneStickStrafe extends OpMode {
 
     boolean isIntakeOn;
     boolean IntakeON;
+    boolean speedChangeBumper;
+    boolean hasSpeedToggled;
+    boolean isSpeedHalf;
     float trigger;
     double x;
     double rx;
@@ -28,7 +31,7 @@ public class OneStickStrafe extends OpMode {
     int count = 0;
     boolean hascount = false;
     boolean hasToggled = false;
-    double servoMax = 0.3;
+    double servoMax = 0.25;
     double servoMin = 0.5;
     boolean dpadUp;
     boolean dpadDown;
@@ -39,6 +42,7 @@ public class OneStickStrafe extends OpMode {
     double g1R;
     double g2L;
     double g2R;
+    double motorMutiplier = 1;
 
     @Override
     public void init() {
@@ -79,13 +83,14 @@ public class OneStickStrafe extends OpMode {
         frontRightMotor.setPower(1 * (y - x + rx));
         backRightMotor.setPower(1 * (y - x - rx));*/
 
-        frontLeftMotor.setPower(y - x - rx);
-        backLeftMotor.setPower(y + x - rx);
-        frontRightMotor.setPower(y + x + rx);
-        backRightMotor.setPower(y -  x + rx);
+        frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
+        backLeftMotor.setPower(motorMutiplier * (y + x - rx));
+        frontRightMotor.setPower(motorMutiplier * (y + x + rx));
+        backRightMotor.setPower(motorMutiplier * (y -  x + rx));
 
 
         IntakeON = gamepad2.a;
+        speedChangeBumper = gamepad1.right_bumper;
 
         dpadUp = gamepad2.dpad_up;
         dpadDown = gamepad2.dpad_down;
@@ -188,6 +193,28 @@ public class OneStickStrafe extends OpMode {
         }
         if (IntakeON == false && isIntakeOn == false) {
             hasToggled = false;
+        }
+
+        //This code changes the motorMultipler
+
+        if (speedChangeBumper && isSpeedHalf == false && hasSpeedToggled == false) {
+            isSpeedHalf = true;
+            motorMutiplier = 0.5;
+        }
+        if (speedChangeBumper && isSpeedHalf && hasSpeedToggled == true) {
+            isSpeedHalf = false;
+            motorMutiplier = 1;
+        }
+        if (speedChangeBumper == false && isSpeedHalf) {
+            hasSpeedToggled = true;
+        }
+        if (speedChangeBumper == false && isSpeedHalf == false) {
+            hasToggled = false;
+        }
+
+        //Reverse shooting motor
+        if (gamepad2.right_bumper == true){
+            Shooter.setPower(-1);
         }
 
         //setting trigger

@@ -152,15 +152,15 @@ public class OneStickStrafe extends OpMode {
         }
         switch (count) {
             case 3:
-                Shooter.setPower(1);
+                Shooter.setPower(-0.80);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 2:
-                Shooter.setPower(0.75);
+                Shooter.setPower(-0.70);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 1:
-                Shooter.setPower(0.5);
+                Shooter.setPower(-0.60);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             //case 4:
@@ -209,14 +209,16 @@ public class OneStickStrafe extends OpMode {
             hasSpeedToggled = true;
         }
         if (speedChangeBumper == false && isSpeedHalf == false) {
-            hasToggled = false;
+            hasSpeedToggled = false;
         }
 
         //Reverse shooting motor
-        if (gamepad2.right_bumper == true){
-            Shooter.setPower(-1);
+       if (gamepad2.left_trigger > 0.1 && count == 0 ){
+            Shooter.setPower(0.5*gamepad2.left_trigger);
         }
-
+        if (gamepad2.left_trigger < 0.1 && count == 0 ){
+            Shooter.setPower(0);
+        }
         //setting trigger
         trigger = gamepad2.right_trigger;
 

@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.google.gson.internal.$Gson$Preconditions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -18,8 +15,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 
-@Autonomous(name = "StartOne", group = "StartOne")
-public class startOne extends LinearOpMode {
+@Autonomous(name = "L1HighGoal", group = "L1")
+public class L1HighGoal extends LinearOpMode {
 
     DriveClass moveClark = new DriveClass();
     //TensorFlowWebcam TF = new TensorFlowWebcam();
@@ -87,7 +84,7 @@ public class startOne extends LinearOpMode {
             trigger(5500);
         }
         if (toggle == false) {
-            goToPosition(500, 0.25, 4);
+            goToPosition(500, 0.25, 5);
             sleep(1000);
             //update screen is for tensorFlow to see the rings
             updateScreen();
@@ -100,61 +97,55 @@ public class startOne extends LinearOpMode {
             switch (ringState) {
                 case 0:
                     //Go to A
+                    goToPosition(900, 0.25, 4);
+                    sleep(250);
+                    goToPosition(-50, 0.25, 3);
                     goToPosition(2750, 0.5, 3);
-                    sleep(500);
-                    goToPosition(1200, 0.25, 4);
+                    sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-300, 0.25, 3);
-                    goToPosition(2600, 0.25, 5);
-                    goToPosition(100, 0.25, 9);
-                   // goToPosition(670, 0.5, 3);
+                    goToPosition(-200, 0.25, 3);
+                    sleep(500);
+                    goToPosition(950, 0.25, 5);
                     trigger(3000);
-                    goToPosition(265,0.25,5);
                     trigger2(6000);
                     shooter.setPower(0);
-                    goToPosition(800, .5, 3);
+                    goToPosition(400, .5, 3);
                     break;
                 case 1:
                     //Go to B
-                    goToPosition(600, 0.25, 5);
+                    goToPosition(900, 0.25, 4);
+                    sleep(250);
+                    goToPosition(-50, 0.25, 3);
                     goToPosition(3450, 0.5, 3);
-                    sleep(500);
-                    goToPosition(800, 0.25, 4);
-                    sleep(500);
-                    setWobble();
-                    sleep(500);
-                    goToPosition(-920, 0.25, 3);
-                    sleep(250);
-                    goToPosition(1150, 0.25, 5);
-                    //goToPosition(100, 0.5, 9);
-                    trigger(3000);
-                    goToPosition(200,0.25,5);
-                    trigger2(6000);
-                    shooter.setPower(0);
-                    goToPosition(600, 0.25, 3);
-                    break;
-                case 2:
-                    //Go to C
-                    sleep(250);
-                    goToPosition(900, 0.25, 5);
-                    goToPosition(-75, 0.25, 3);
-                    goToPosition(4400, 0.5, 3);
-                    sleep(250);
-                    goToPosition(2000, 0.25, 4);
+                    sleep(750);
+                    goToPosition(1100, 0.25, 5);
                     sleep(500);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-1850, 0.5, 3);
-                    sleep(250);
-                    //goToPosition(537, .5, 4);
-                    goToPosition(1970, 0.25, 5);
-                   // goToPosition(100, 0.5, 9);
+                    goToPosition(-850, 0.25, 3);
+                    //goToPosition(50,0.25,9);
                     trigger(3000);
-                    goToPosition(175,0.25,5);
                     trigger2(6000);
                     shooter.setPower(0);
-                    goToPosition(550, .5, 3);
+                    goToPosition(400, .5, 3);
+                    break;
+                case 2:
+                    //Go to C
+                    goToPosition(900, 0.25, 4);
+                    sleep(250);
+                    goToPosition(-50, 0.25, 3);
+                    goToPosition(4400, 0.5, 3);
+                    sleep(250);
+                    setWobble();
+                    wobbleServo.setPosition(.75);
+                    goToPosition(-1750, 0.25, 3);
+                    sleep(500);
+                    goToPosition(1100, 0.25, 5);
+                    trigger(3000);
+                    trigger2(6000);
+                    shooter.setPower(0);
+                    goToPosition(400, .5, 3);
                     break;
             }
         }
@@ -362,7 +353,7 @@ public class startOne extends LinearOpMode {
     public void trigger(int maxTime){
         runtime.reset();
         while (runtime.milliseconds() <= maxTime){
-            shooter.setPower(0.70);
+            shooter.setPower(0.80);
             if (runtime.milliseconds() > 2000 && runtime.milliseconds() <= 3500){
                 hammer.setPosition(servoMax);
             } 
@@ -382,7 +373,7 @@ public class startOne extends LinearOpMode {
     public void trigger2(int maxTime){
         runtime.reset();
         while (runtime.milliseconds() <= maxTime){
-            shooter.setPower(0.70);
+            shooter.setPower(0.80);
             if (runtime.milliseconds() > 100 && runtime.milliseconds() <= 1000){
                 hammer.setPosition(servoMin);
             }

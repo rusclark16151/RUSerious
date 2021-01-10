@@ -81,10 +81,12 @@ public class L1HighGoal extends LinearOpMode {
 
         if (toggle == true) {
             intakeHasToggled = true;
-            trigger(5500);
+            trigger(2000, 0.85);
+            trigger2(1000, 0.8);
+            trigger2(1000, 0.75);
         }
         if (toggle == false) {
-            goToPosition(500, 0.25, 5);
+            goToPosition(650, 0.25, 5);
             sleep(1000);
             //update screen is for tensorFlow to see the rings
             updateScreen();
@@ -97,7 +99,7 @@ public class L1HighGoal extends LinearOpMode {
             switch (ringState) {
                 case 0:
                     //Go to A
-                    goToPosition(900, 0.25, 4);
+                    goToPosition(1000, 0.25, 4);
                     sleep(250);
                     goToPosition(-50, 0.25, 3);
                     goToPosition(2750, 0.5, 3);
@@ -106,46 +108,65 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-200, 0.25, 3);
                     sleep(500);
-                    goToPosition(950, 0.25, 5);
-                    trigger(3000);
-                    trigger2(6000);
+                    goToPosition(800, 0.25, 5);
+                    goToPosition(-55, 0.5, 7);
+                    trigger(2000, 0.85);
+                    trigger2(1000, 0.8);
+                    trigger2(1000, 0.75);
                     shooter.setPower(0);
-                    goToPosition(400, .5, 3);
+                    goToPosition(500, .5, 3);
                     break;
                 case 1:
                     //Go to B
-                    goToPosition(900, 0.25, 4);
+                    goToPosition(1000, 0.25, 4);
                     sleep(250);
                     goToPosition(-50, 0.25, 3);
                     goToPosition(3450, 0.5, 3);
                     sleep(750);
-                    goToPosition(1100, 0.25, 5);
+                    goToPosition(1000, 0.25, 5);
                     sleep(500);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-850, 0.25, 3);
-                    //goToPosition(50,0.25,9);
-                    trigger(3000);
-                    trigger2(6000);
+                    goToPosition(-875, 0.25, 3);
+                    goToPosition(100,0.25,4);
+                    goToPosition(-140,0.25,7);
+                    goToPosition(100,0.25,4);
+                    trigger(2000, 0.85);
+                    trigger2(1000, 0.8);
+                    trigger2(1000, 0.75);
                     shooter.setPower(0);
-                    goToPosition(400, .5, 3);
+/*                  goToPosition(-500, 0.25, 3);
+                    intake.setPower(-1);
+                    sleep(1000);
+                    trigger(6000, 1);*/
+                    goToPosition(500, .5, 3);
                     break;
                 case 2:
                     //Go to C
-                    goToPosition(900, 0.25, 4);
+                    goToPosition(1000, 0.25, 4);
                     sleep(250);
                     goToPosition(-50, 0.25, 3);
                     goToPosition(4400, 0.5, 3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-1750, 0.25, 3);
+                    goToPosition(-1700, 0.5, 3);
                     sleep(500);
-                    goToPosition(1100, 0.25, 5);
-                    trigger(3000);
-                    trigger2(6000);
+                    goToPosition(850, 0.25, 5);
+                    goToPosition(-125, 0.25,7);
+                    trigger(2000, 0.85);
+                    trigger2(1000, 0.8);
+                    trigger2(1000, 0.75);
                     shooter.setPower(0);
-                    goToPosition(400, .5, 3);
+/*                    goToPosition(-600, 0.5, 3);
+                    goToPosition(50, 0.5, 5);
+                    intake.setPower(-1);
+                    goToPosition(-400, 0.75,3);
+                    goToPosition(800, 0.5,3);
+                    intake.setPower(0);
+                    trigger(2000, 0.8);
+                    trigger(2000, 0.);*/
+                    goToPosition(500, .75, 3);
                     break;
             }
         }
@@ -350,47 +371,29 @@ public class L1HighGoal extends LinearOpMode {
             encoders(Ptarget, Pspeed, 9);
         }
     }
-    public void trigger(int maxTime){
+    public void trigger(int maxTime, double tPower){
         runtime.reset();
         while (runtime.milliseconds() <= maxTime){
-            shooter.setPower(0.80);
-            if (runtime.milliseconds() > 2000 && runtime.milliseconds() <= 3500){
+            shooter.setPower(tPower);
+            if (runtime.milliseconds() > 2000 && runtime.milliseconds() <= 2500){
                 hammer.setPosition(servoMax);
             } 
-          /*  if (runtime.milliseconds() > 3600 && runtime.milliseconds() <= 7500){
+            if (runtime.milliseconds() > 1500 && runtime.milliseconds() <= 2000){
                 hammer.setPosition(servoMin);
-                goToPosition(400,0.5,5);
             }
-            if (runtime.milliseconds() > 5000 && runtime.milliseconds() < 7400 && intakeHasToggled == false) {
-                intake.setPower(-1);
-                intakeHasToggled = true;
-            }*/
         }
-        //shooter.setPower(0);
-        //sleep(500);
-        intake.setPower(0);
     }
-    public void trigger2(int maxTime){
+    public void trigger2(int maxTime,  double tPower) {
         runtime.reset();
-        while (runtime.milliseconds() <= maxTime){
-            shooter.setPower(0.80);
-            if (runtime.milliseconds() > 100 && runtime.milliseconds() <= 1000){
-                hammer.setPosition(servoMin);
-            }
-            if (runtime.milliseconds() > 2000 && runtime.milliseconds() < 5000 && intakeHasToggled == false) {
-                intake.setPower(-1);
-                intakeHasToggled = true;
-            }
-            if (runtime.milliseconds() > 4500 && runtime.milliseconds() <= 5000){
+        while (runtime.milliseconds() <= maxTime) {
+            shooter.setPower(tPower);
+            if (runtime.milliseconds() > 250 && runtime.milliseconds() <= 500) {
                 hammer.setPosition(servoMax);
             }
-            if (runtime.milliseconds() > 5000 && runtime.milliseconds() <= 5500){
+            if (runtime.milliseconds() > 750 && runtime.milliseconds() <= 1000) {
                 hammer.setPosition(servoMin);
             }
         }
-        //shooter.setPower(0);
-        //sleep(500);
-        intake.setPower(0);
     }
     public void setWobble() {
         wobbleServo.setPosition(1);

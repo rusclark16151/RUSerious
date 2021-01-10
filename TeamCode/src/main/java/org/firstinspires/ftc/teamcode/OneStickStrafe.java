@@ -60,6 +60,7 @@ public class OneStickStrafe extends OpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         Intake.setDirection(DcMotorSimple.Direction.REVERSE);
         Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+        //Shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     //this is the main loop for the teleOP program when play is pressed
@@ -152,7 +153,7 @@ public class OneStickStrafe extends OpMode {
         }
         switch (count) {
             case 3:
-                Shooter.setPower(-0.80);
+                Shooter.setPower(-0.75);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 2:
@@ -160,7 +161,7 @@ public class OneStickStrafe extends OpMode {
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 1:
-                Shooter.setPower(-0.60);
+                Shooter.setPower(-0.65);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             //case 4:

@@ -111,7 +111,9 @@ public class startOne extends LinearOpMode {
                    // goToPosition(670, 0.5, 3);
                     trigger(3000);
                     goToPosition(265,0.25,5);
-                    trigger2(6000);
+                    trigger(3000);
+                    goToPosition(265,0.25,5);
+                    trigger(3000);
                     shooter.setPower(0);
                     goToPosition(800, .5, 3);
                     break;
@@ -132,7 +134,9 @@ public class startOne extends LinearOpMode {
                     goToPosition(200,0.25,5);
                     trigger2(6000);
                     shooter.setPower(0);
-                    goToPosition(600, 0.25, 3);
+                    goToPosition(-250, 0.25, 3);
+                    trigger2(6000);
+                    goToPosition(800, 0.5, 3);
                     break;
                 case 2:
                     //Go to C
@@ -154,6 +158,8 @@ public class startOne extends LinearOpMode {
                     goToPosition(175,0.25,5);
                     trigger2(6000);
                     shooter.setPower(0);
+                    goToPosition(-500, 0.5, 3);
+                    trigger2(6000 );
                     goToPosition(550, .5, 3);
                     break;
             }

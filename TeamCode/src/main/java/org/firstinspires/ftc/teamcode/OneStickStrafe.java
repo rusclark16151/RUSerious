@@ -151,6 +151,7 @@ public class OneStickStrafe extends OpMode {
                 count = 0;
             }
         }
+       //Adjustments for shooter wheel power
         switch (count) {
             case 3:
                 Shooter.setPower(-0.75);

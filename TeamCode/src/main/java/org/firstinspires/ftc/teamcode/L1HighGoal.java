@@ -81,9 +81,9 @@ public class L1HighGoal extends LinearOpMode {
 
         if (toggle == true) {
             intakeHasToggled = true;
-            trigger(2000, 0.85);
-            trigger2(1000, 0.8);
-            trigger2(1000, 0.75);
+            trigger(4000, 0.85);
+            trigger(2000, 0.8);
+            trigger(3000, 0.75);
         }
         if (toggle == false) {
             goToPosition(650, 0.25, 5);
@@ -108,9 +108,9 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-200, 0.25, 3);
                     sleep(500);
-                    goToPosition(800, 0.25, 5);
+                    goToPosition(725, 0.25, 5);
                     goToPosition(-95, 0.5, 7);
-                    trigger(4000, 0.80);
+                    trigger(4000, 0.75);
                     trigger(3000, 0.75);
                     trigger(3000, 0.75);
                     shooter.setPower(0);
@@ -129,9 +129,9 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-875, 0.25, 3);
                     goToPosition(100,0.25,4);
-                    goToPosition(-140,0.25,7);
-                    goToPosition(100,0.25,4);
-                    trigger(4000, 0.8);
+                    goToPosition(-200,0.25,7);
+                    goToPosition(75,0.25,4);
+                    trigger(4000, 0.75);
                     trigger(3000, 0.75);
                     trigger(3000, 0.75);
                     shooter.setPower(0);
@@ -154,7 +154,7 @@ public class L1HighGoal extends LinearOpMode {
                     sleep(500);
                     goToPosition(850, 0.25, 5);
                     goToPosition(-125, 0.25,7);
-                    trigger(4000, 0.8);
+                    trigger(4000, 0.75);
                     trigger(3000, 0.75);
                     trigger(3000, 0.75);
                     shooter.setPower(0);
@@ -375,13 +375,13 @@ public class L1HighGoal extends LinearOpMode {
         runtime.reset();
         while (runtime.milliseconds() <= maxTime){
             shooter.setPower(tPower);
-            if (runtime.milliseconds() > 2000 && runtime.milliseconds() <= 2500){
+            if (runtime.milliseconds() > (maxTime-1000) && runtime.milliseconds() <= (maxTime-500)){
                 hammer.setPosition(servoMax);
             } 
-            if (runtime.milliseconds() > 2500 && runtime.milliseconds() <= 3000){
+            if (runtime.milliseconds() > (maxTime-500) && runtime.milliseconds() <= maxTime){
                 hammer.setPosition(servoMin);
             }
-        }
+    }
     }
     public void trigger2(int maxTime,  double tPower) {
         runtime.reset();

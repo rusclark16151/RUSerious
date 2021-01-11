@@ -110,9 +110,9 @@ public class L1HighGoal extends LinearOpMode {
                     sleep(500);
                     goToPosition(800, 0.25, 5);
                     goToPosition(-55, 0.5, 7);
-                    trigger(2000, 0.85);
-                    trigger2(1000, 0.8);
-                    trigger2(1000, 0.75);
+                    trigger(4000, 0.75);
+                    trigger(3000, 0.75);
+                    trigger(3000, 0.75);
                     shooter.setPower(0);
                     goToPosition(500, .5, 3);
                     break;
@@ -131,9 +131,9 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(100,0.25,4);
                     goToPosition(-140,0.25,7);
                     goToPosition(100,0.25,4);
-                    trigger(2000, 0.85);
-                    trigger2(1000, 0.8);
-                    trigger2(1000, 0.75);
+                    trigger(4000, 0.75);
+                    trigger(3000, 0.75);
+                    trigger(3000, 0.75);
                     shooter.setPower(0);
 /*                  goToPosition(-500, 0.25, 3);
                     intake.setPower(-1);
@@ -154,9 +154,9 @@ public class L1HighGoal extends LinearOpMode {
                     sleep(500);
                     goToPosition(850, 0.25, 5);
                     goToPosition(-125, 0.25,7);
-                    trigger(2000, 0.85);
-                    trigger2(1000, 0.8);
-                    trigger2(1000, 0.75);
+                    trigger(4000, 0.75);
+                    trigger(3000, 0.75);
+                    trigger(3000, 0.75);
                     shooter.setPower(0);
 /*                    goToPosition(-600, 0.5, 3);
                     goToPosition(50, 0.5, 5);
@@ -378,7 +378,7 @@ public class L1HighGoal extends LinearOpMode {
             if (runtime.milliseconds() > 2000 && runtime.milliseconds() <= 2500){
                 hammer.setPosition(servoMax);
             } 
-            if (runtime.milliseconds() > 1500 && runtime.milliseconds() <= 2000){
+            if (runtime.milliseconds() > 2500 && runtime.milliseconds() <= 3000){
                 hammer.setPosition(servoMin);
             }
         }

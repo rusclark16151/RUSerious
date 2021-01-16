@@ -16,6 +16,7 @@ public class OneStickStrafe extends OpMode {
     DcMotor frontRightMotor;
     DcMotor Shooter;
     DcMotor Intake;
+    DcMotor Arm;
     Servo hammerServo;
     Servo wobbleServo;
 
@@ -42,6 +43,7 @@ public class OneStickStrafe extends OpMode {
     double g1R;
     double g2L;
     double g2R;
+    double g2Y;
     double motorMutiplier = 1;
 
     @Override
@@ -55,6 +57,8 @@ public class OneStickStrafe extends OpMode {
         Intake = hardwareMap.dcMotor.get("intake");
         hammerServo = hardwareMap.servo.get("hammer");
         wobbleServo = hardwareMap.servo.get("wobble");
+        Arm = hardwareMap.dcMotor.get("arm");
+
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -70,6 +74,7 @@ public class OneStickStrafe extends OpMode {
         g1R = gamepad1.right_stick_y;
         g2L = gamepad2.left_stick_y;
         g2R = gamepad2.right_stick_y;*/
+        g2Y = gamepad2.right_stick_y;
 
        /* frontLeftMotor.setPower(g1R);
         backLeftMotor.setPower(g1L);
@@ -88,6 +93,8 @@ public class OneStickStrafe extends OpMode {
         backLeftMotor.setPower(motorMutiplier * (y + x - rx));
         frontRightMotor.setPower(motorMutiplier * (y + x + rx));
         backRightMotor.setPower(motorMutiplier * (y -  x + rx));
+
+        Arm.setPower(g2Y);
 
 
         IntakeON = gamepad2.a;

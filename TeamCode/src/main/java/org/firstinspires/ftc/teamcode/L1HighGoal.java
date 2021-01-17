@@ -86,9 +86,10 @@ public class L1HighGoal extends LinearOpMode {
             trigger(3000, 0.75);
         }
         if (toggle == false) {
-            goToPosition(650, 0.25, 5);
-            goToPosition(-250,0.25,7);
+            goToPosition(650, 0.4, 5);
+         // goToPosition(-250,0.25,7);
             goToPosition(-250,0.25,3);
+            sleep(500);
             goToPosition(250,0.25,3);
             sleep(1000);
             //update screen is for tensorFlow to see the rings
@@ -102,17 +103,17 @@ public class L1HighGoal extends LinearOpMode {
             switch (ringState) {
                 case 0:
                     //Go to A
-                    goToPosition(1050, 0.25, 4);
+                    goToPosition(1050, 0.4, 4);
                     sleep(250);
-                    goToPosition(-100, 0.25, 3);
+                    goToPosition(-150, 0.25, 3);
                     goToPosition(2750, 0.5, 3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-175, 0.25, 3);
+                    goToPosition(-200, 0.25, 3);
                     sleep(500);
-                    goToPosition(675, 0.25, 5);
-                   // goToPosition(-95, 0.5, 7);
+                    goToPosition(825, 0.25, 5);
+                    goToPosition(-95, 0.5, 7);
                     trigger(4000, 0.72);
                     trigger(3000, 0.72);
                     trigger(3000, 0.72);
@@ -121,33 +122,28 @@ public class L1HighGoal extends LinearOpMode {
                     break;
                 case 1:
                     //Go to B
-                    goToPosition(1050, 0.25, 4);
+                    goToPosition(1050, 0.4, 4);
                     sleep(250);
-                    goToPosition(-100, 0.25, 3);
+                    goToPosition(-150, 0.25, 3);
                     goToPosition(3450, 0.5, 3);
                     sleep(750);
                     goToPosition(1100, 0.25, 5);
                     sleep(500);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-1000, 0.25, 3);
-                    ///goToPosition(100,0.25,4);
-                    goToPosition(-225,0.25,7);
+                    goToPosition(-975, 0.25, 3);
+                    goToPosition(-100,0.25,7);
                     trigger(4000, 0.73);
                     trigger(3000, 0.72);
                     trigger(3000, 0.72);
                     shooter.setPower(0);
-/*                  goToPosition(-500, 0.25, 3);
-                    intake.setPower(-1);
-                    sleep(1000);
-                    trigger(6000, 1);*/
                     goToPosition(500, .5, 3);
                     break;
                 case 2:
                     //Go to C
-                    goToPosition(1000, 0.25, 4);
+                    goToPosition(1000, 0.4, 4);
                     sleep(250);
-                    goToPosition(-100, 0.25, 3);
+                    goToPosition(-150, 0.25, 3);
                     goToPosition(4400, 0.5, 3);
                     sleep(250);
                     setWobble();
@@ -155,7 +151,7 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-1800, 0.5, 3);
                     sleep(500);
                     goToPosition(950, 0.25, 5);
-                    goToPosition(-125, 0.25,7);
+                    goToPosition(-75, 0.25,7);
                     trigger(4000, 0.72);
                     trigger(3000, 0.72);
                     trigger(3000, 0.72);

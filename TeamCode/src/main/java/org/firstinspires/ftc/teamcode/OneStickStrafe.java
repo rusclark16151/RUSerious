@@ -22,6 +22,8 @@ public class OneStickStrafe extends OpMode {
 
     boolean isIntakeOn;
     boolean IntakeON;
+    boolean wobbleSet;
+    boolean iswobbleSet;
     boolean speedChangeBumper;
     boolean hasSpeedToggled;
     boolean isSpeedHalf;
@@ -32,6 +34,7 @@ public class OneStickStrafe extends OpMode {
     int count = 0;
     boolean hascount = false;
     boolean hasToggled = false;
+    boolean HasToggled = false;
     double servoMax = 0.25;
     double servoMin = 0.5;
     boolean dpadUp;
@@ -94,7 +97,7 @@ public class OneStickStrafe extends OpMode {
         frontRightMotor.setPower(motorMutiplier * (y + x + rx));
         backRightMotor.setPower(motorMutiplier * (y -  x + rx));
 
-        Arm.setPower(g2Y);
+        Arm.setPower(g2Y*0.5);
 
 
         IntakeON = gamepad2.a;
@@ -105,6 +108,7 @@ public class OneStickStrafe extends OpMode {
         dpadRight = gamepad2.dpad_right;
         dpadLeft = gamepad2.dpad_left;
 
+        wobbleSet = gamepad2.y;
 
         if (dpadUp || dpadDown || dpadLeft || dpadRight) {
             if (dpadUp) {
@@ -238,12 +242,21 @@ public class OneStickStrafe extends OpMode {
         else {
             hammerServo.setPosition(servoMin);
         }
-        if (gamepad2.y){
-            wobbleServo.setPosition(.25);
 
+
+        if (wobbleSet && iswobbleSet == false && HasToggled == false) {
+            wobbleServo.setPosition(.20);
+            iswobbleSet = true;
         }
-        else {
+        if (wobbleSet && iswobbleSet && HasToggled == true) {
+            iswobbleSet = false;
             wobbleServo.setPosition(0);
+        }
+        if (wobbleSet == false && iswobbleSet) {
+            HasToggled = true;
+        }
+        if (wobbleSet == false && iswobbleSet == false) {
+            HasToggled = false;
         }
     }
 }

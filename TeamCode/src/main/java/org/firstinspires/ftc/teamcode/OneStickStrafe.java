@@ -19,10 +19,11 @@ public class OneStickStrafe extends OpMode {
     DcMotor Arm;
     Servo hammerServo;
     Servo wobbleServo;
+    Servo clawServo;
 
     boolean isIntakeOn;
     boolean IntakeON;
-    boolean wobbleSet;
+    float wobbleSet;
     boolean iswobbleSet;
     boolean speedChangeBumper;
     boolean hasSpeedToggled;
@@ -34,7 +35,7 @@ public class OneStickStrafe extends OpMode {
     int count = 0;
     boolean hascount = false;
     boolean hasToggled = false;
-    boolean HasToggled = false;
+    boolean WSHasToggled = false;
     double servoMax = 0.25;
     double servoMin = 0.5;
     boolean dpadUp;
@@ -46,7 +47,8 @@ public class OneStickStrafe extends OpMode {
     double g1R;
     double g2L;
     double g2R;
-    double g2Y;
+    double g2RY;
+    double g2LY;
     double motorMutiplier = 1;
 
     @Override
@@ -60,6 +62,7 @@ public class OneStickStrafe extends OpMode {
         Intake = hardwareMap.dcMotor.get("intake");
         hammerServo = hardwareMap.servo.get("hammer");
         wobbleServo = hardwareMap.servo.get("wobble");
+        clawServo = hardwareMap.servo.get("claw");
         Arm = hardwareMap.dcMotor.get("arm");
 
 
@@ -77,7 +80,8 @@ public class OneStickStrafe extends OpMode {
         g1R = gamepad1.right_stick_y;
         g2L = gamepad2.left_stick_y;
         g2R = gamepad2.right_stick_y;*/
-        g2Y = gamepad2.right_stick_y;
+        g2RY = gamepad2.right_stick_y;
+        g2LY = gamepad2.left_stick_y;
 
        /* frontLeftMotor.setPower(g1R);
         backLeftMotor.setPower(g1L);
@@ -97,8 +101,12 @@ public class OneStickStrafe extends OpMode {
         frontRightMotor.setPower(motorMutiplier * (y + x + rx));
         backRightMotor.setPower(motorMutiplier * (y -  x + rx));
 
-        Arm.setPower(g2Y*0.5);
-
+      /* if(g2LY>.1 || g2LY <-.1) {
+           Arm.setPower(g2LY * 0.55);
+       }*/
+      // if (g2RY> .1|| g2RY <-.1) {
+           Arm.setPower(g2RY);
+       //}
 
         IntakeON = gamepad2.a;
         speedChangeBumper = gamepad1.right_bumper;
@@ -108,7 +116,7 @@ public class OneStickStrafe extends OpMode {
         dpadRight = gamepad2.dpad_right;
         dpadLeft = gamepad2.dpad_left;
 
-        wobbleSet = gamepad2.y;
+        wobbleSet = gamepad1.left_trigger;
 
         if (dpadUp || dpadDown || dpadLeft || dpadRight) {
             if (dpadUp) {
@@ -183,6 +191,7 @@ public class OneStickStrafe extends OpMode {
         telemetry.addData("servoPosition", hammerServo.getPosition());
         telemetry.addData("count", count);
         telemetry.addData("hasCount", hascount);
+        telemetry.addData("wobbleSet", wobbleSet);
 
 /*      telemetry.addData("FLM", frontLeftMotor.getPower());
         telemetry.addData("BLM", backLeftMotor.getPower());
@@ -197,7 +206,7 @@ public class OneStickStrafe extends OpMode {
             isIntakeOn = true;
             Intake.setPower(1);
         }
-        if (IntakeON && isIntakeOn && hasToggled == true) {
+        if (IntakeON && isIntakeOn && hasToggled) {
             isIntakeOn = false;
             Intake.setPower(0);
         }
@@ -244,20 +253,20 @@ public class OneStickStrafe extends OpMode {
         }
 
 
-        if (wobbleSet && iswobbleSet == false && HasToggled == false) {
-            wobbleServo.setPosition(.20);
+/*        if (wobbleSet && iswobbleSet == false && WSHasToggled == false) {
+            clawServo.setPosition(.5);
             iswobbleSet = true;
         }
-        if (wobbleSet && iswobbleSet && HasToggled == true) {
+        if (wobbleSet && iswobbleSet && WSHasToggled) {
             iswobbleSet = false;
-            wobbleServo.setPosition(0);
+            clawServo.setPosition(0);
         }
         if (wobbleSet == false && iswobbleSet) {
-            HasToggled = true;
+            WSHasToggled = true;
         }
         if (wobbleSet == false && iswobbleSet == false) {
-            HasToggled = false;
-        }
+            WSHasToggled = false;
+        }*/
     }
 }
 

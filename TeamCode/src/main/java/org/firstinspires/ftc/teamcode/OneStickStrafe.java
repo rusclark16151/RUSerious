@@ -23,7 +23,7 @@ public class OneStickStrafe extends OpMode {
 
     boolean isIntakeOn;
     boolean IntakeON;
-    float wobbleSet;
+    boolean wobbleSet;
     boolean iswobbleSet;
     boolean speedChangeBumper;
     boolean hasSpeedToggled;
@@ -64,6 +64,7 @@ public class OneStickStrafe extends OpMode {
         wobbleServo = hardwareMap.servo.get("wobble");
         clawServo = hardwareMap.servo.get("claw");
         Arm = hardwareMap.dcMotor.get("arm");
+        clawServo.setPosition(0.46); //open the claw all the way
 
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -116,7 +117,7 @@ public class OneStickStrafe extends OpMode {
         dpadRight = gamepad2.dpad_right;
         dpadLeft = gamepad2.dpad_left;
 
-        wobbleSet = gamepad1.left_trigger;
+        wobbleSet = gamepad2.y;
 
         if (dpadUp || dpadDown || dpadLeft || dpadRight) {
             if (dpadUp) {
@@ -191,7 +192,7 @@ public class OneStickStrafe extends OpMode {
         telemetry.addData("servoPosition", hammerServo.getPosition());
         telemetry.addData("count", count);
         telemetry.addData("hasCount", hascount);
-        telemetry.addData("wobbleSet", wobbleSet);
+        telemetry.addData("wobbleSet", clawServo.getPosition());
 
 /*      telemetry.addData("FLM", frontLeftMotor.getPower());
         telemetry.addData("BLM", backLeftMotor.getPower());
@@ -253,20 +254,20 @@ public class OneStickStrafe extends OpMode {
         }
 
 
-/*        if (wobbleSet && iswobbleSet == false && WSHasToggled == false) {
-            clawServo.setPosition(.5);
+       if (wobbleSet && iswobbleSet == false && WSHasToggled == false) {
+            clawServo.setPosition(0.38);//close
             iswobbleSet = true;
         }
         if (wobbleSet && iswobbleSet && WSHasToggled) {
             iswobbleSet = false;
-            clawServo.setPosition(0);
+            clawServo.setPosition(0.46);//open
         }
         if (wobbleSet == false && iswobbleSet) {
             WSHasToggled = true;
         }
         if (wobbleSet == false && iswobbleSet == false) {
             WSHasToggled = false;
-        }*/
+        }
     }
 }
 

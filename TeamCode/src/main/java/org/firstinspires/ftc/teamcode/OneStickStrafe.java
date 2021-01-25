@@ -64,7 +64,7 @@ public class OneStickStrafe extends OpMode {
         wobbleServo = hardwareMap.servo.get("wobble");
         clawServo = hardwareMap.servo.get("claw");
         Arm = hardwareMap.dcMotor.get("arm");
-        clawServo.setPosition(0.46); //open the claw all the way
+        clawServo.setPosition(0.37); //closed the claw all the way
 
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -174,15 +174,15 @@ public class OneStickStrafe extends OpMode {
        //The following adjusts power for the shooting wheel. 1-10-21
         switch (count) {
             case 3:
-                Shooter.setPower(-0.75);
+                Shooter.setPower(-1);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 2:
-                Shooter.setPower(-0.70);
+                Shooter.setPower(-0.75);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 1:
-                Shooter.setPower(-0.65);
+                Shooter.setPower(-0.70);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             //case 4:
@@ -255,12 +255,12 @@ public class OneStickStrafe extends OpMode {
 
 
        if (wobbleSet && iswobbleSet == false && WSHasToggled == false) {
-            clawServo.setPosition(0.38);//close
+            clawServo.setPosition(0.37);//close
             iswobbleSet = true;
         }
         if (wobbleSet && iswobbleSet && WSHasToggled) {
             iswobbleSet = false;
-            clawServo.setPosition(0.46);//open
+            clawServo.setPosition(0.49);//open
         }
         if (wobbleSet == false && iswobbleSet) {
             WSHasToggled = true;

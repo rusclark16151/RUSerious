@@ -122,7 +122,7 @@ public class OneStickStrafe extends OpMode {
         if (dpadUp || dpadDown || dpadLeft || dpadRight) {
             if (dpadUp) {
                 if (hascount == false) {
-                    if (count < 3) {
+                    if (count < 4) {
                         runtime.reset();
                         runtime.startTime();
                         //Shooter.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -152,13 +152,13 @@ public class OneStickStrafe extends OpMode {
             if (dpadRight) {
                 if (hascount == false) {
                     hascount = true;
-                    count = 3;
+                    count = 4;
                 }
             }
             if (dpadLeft) {
                 if (hascount == false) {
                     hascount = true;
-                    count = 4;
+                    count = 5;
                     Shooter.setPower(0);
                 }
             }
@@ -167,14 +167,18 @@ public class OneStickStrafe extends OpMode {
        if (!dpadUp && !dpadDown &&
                 !dpadLeft && !dpadRight) {
             hascount = false;
-            if (count == 4) {
+            if (count == 5) {
                 count = 0;
             }
         }
        //The following adjusts power for the shooting wheel. 1-10-21
         switch (count) {
+            case 4:
+                Shooter.setPower(-.9);
+                telemetry.addData("Shooter", Shooter.getPower());
+                break;
             case 3:
-                Shooter.setPower(-1);
+                Shooter.setPower(-.8);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 2:

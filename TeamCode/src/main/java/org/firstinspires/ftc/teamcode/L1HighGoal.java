@@ -24,6 +24,8 @@ public class L1HighGoal extends LinearOpMode {
     int timeoutS = 5000;
     int newRightTarget;
     int newLeftTarget;
+    int newTarget;
+    int CurrPosition;
     int ringState = 0;
     double servoMax = 0.25;
     double servoMin = 0.5;
@@ -114,9 +116,9 @@ public class L1HighGoal extends LinearOpMode {
                     sleep(500);
                     goToPosition(1350, 0.25, 5);
                     //goToPosition(-95, 0.5, 7);
-                    trigger(4000, 0.80);
-                    trigger(3000, 0.75);
-                    trigger(3000, 0.75);
+                    trigger(4000, 0.7);
+                    trigger(3000, 0.7);
+                    trigger(3000, 0.7);
                     shooter.setPower(0);
                     goToPosition(500, .5, 3);
                     break;
@@ -133,8 +135,8 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-1025, 0.25, 3);
                     //goToPosition(-100,0.25,7);
-                    trigger(4000, 0.8);
-                    trigger(3000, 0.75);
+                    trigger(4000, 0.70);
+                    trigger(3000, 0.70);
                     trigger(3000, 0.70);
                     shooter.setPower(0);
                     goToPosition(500, .5, 3);
@@ -150,11 +152,11 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-1800, 0.5, 3);
                     sleep(500);
-                    goToPosition(1300, 0.25, 5);
+                    goToPosition(1100, 0.25, 5);
                     //goToPosition(-75, 0.25,7);
-                    trigger(4000, 0.8);
-                    trigger(3000, 0.75);
-                    trigger(3000, 0.75);
+                    trigger(4000, 0.7);
+                    trigger(3000, 0.7);
+                    trigger(3000, 0.7);
                     shooter.setPower(0);
 /*                    goToPosition(-600, 0.5, 3);
                     goToPosition(50, 0.5, 5);
@@ -182,6 +184,8 @@ public class L1HighGoal extends LinearOpMode {
             state 8 = point turn right
             state 9 = point turn left
              */
+        //double speedMax = speed;
+        //speed = 0;
 
         //this is for set target run
         if (state == 2) {
@@ -247,24 +251,46 @@ public class L1HighGoal extends LinearOpMode {
         }
         moveClark.encoderMove(state);
         if (state >= 3) {
-            moveRobot();
+            moveClark.speed = 0;
+            moveRobot(target,speed);
+            //moveRobot(target,speedMax);
         }
+
     }
 
-    public void moveRobot() {
+
+    public void moveRobot(int target, double MaxSpeed) {
         timeoutS = 50;
         while (opModeIsActive() &&
                 (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
-                moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
+                        moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
+            newTarget = Math.abs(target/3);
+
 
             // Display it for the driver.
             telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+
             newLeftTarget = moveClark.topLeft.getCurrentPosition();
             newRightTarget = moveClark.topRight.getCurrentPosition();
+            CurrPosition = Math.abs(newLeftTarget);
+
+            if(CurrPosition <= newTarget) {
+                moveClark.speed = moveClark.speed + 0.1;
+            }
+            if(CurrPosition >= newTarget && CurrPosition <= newTarget*2 ){
+                moveClark.speed = MaxSpeed;
+            }
+            if(CurrPosition >= newTarget*2 ){
+                moveClark.speed = moveClark.speed - 0.1;
+            }
+            telemetry.addData("Position", CurrPosition);
+            telemetry.addData("Speed", moveClark.speed);
             telemetry.update();
         }
 
     }
+
+
 
     /**
      * Initialize the Vuforia localization engine.

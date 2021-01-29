@@ -56,7 +56,7 @@ public class L1HighGoal extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        //bVoltage = hardwareMap.voltageSensor.get("Motor Controller 1").getVoltage();
+        bVoltage = hardwareMap.voltageSensor.get("Control Hub").getVoltage();
         moveClark.hardwareSetup(hardwareMap);
         hammer = hardwareMap.servo.get("hammer");
         shooter = hardwareMap.dcMotor.get("shooter");
@@ -115,10 +115,16 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-170, 0.25, 3);
                     sleep(500);
                     goToPosition(1350, 0.25, 5);
-                    //goToPosition(-95, 0.5, 7);
-                    trigger(4000, 0.7);
-                    trigger(3000, 0.7);
-                    trigger(3000, 0.7);
+                    if (bVoltage >= 12.6) {
+                        trigger(4000, 0.7);
+                        trigger(3000, 0.7);
+                        trigger(3000, 0.7);
+                    }
+                    else if (bVoltage <= 12.6){
+                        trigger(4000, 0.75);
+                        trigger(3000, 0.75);
+                        trigger(3000, 0.75);
+                    }
                     shooter.setPower(0);
                     goToPosition(500, .5, 3);
                     break;
@@ -134,11 +140,16 @@ public class L1HighGoal extends LinearOpMode {
                     setWobble();
                     wobbleServo.setPosition(.75);
                     goToPosition(-1025, 0.25, 3);
-                    //goToPosition(-100,0.25,7);
-                    trigger(4000, 0.70);
-                    trigger(3000, 0.70);
-                    trigger(3000, 0.70);
-                    shooter.setPower(0);
+                    if (bVoltage >= 12.6) {
+                        trigger(4000, 0.7);
+                        trigger(3000, 0.7);
+                        trigger(3000, 0.7);
+                    }
+                    else if (bVoltage <= 12.6){
+                        trigger(4000, 0.75);
+                        trigger(3000, 0.75);
+                        trigger(3000, 0.75);
+                    }
                     goToPosition(500, .5, 3);
                     break;
                 case 2:
@@ -153,19 +164,17 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-1800, 0.5, 3);
                     sleep(500);
                     goToPosition(1100, 0.25, 5);
-                    //goToPosition(-75, 0.25,7);
-                    trigger(4000, 0.7);
-                    trigger(3000, 0.7);
-                    trigger(3000, 0.7);
+                    if (bVoltage >= 12.6) {
+                        trigger(4000, 0.7);
+                        trigger(3000, 0.7);
+                        trigger(3000, 0.7);
+                    }
+                    else if (bVoltage <= 12.6){
+                        trigger(4000, 0.75);
+                        trigger(3000, 0.75);
+                        trigger(3000, 0.75);
+                    }
                     shooter.setPower(0);
-/*                    goToPosition(-600, 0.5, 3);
-                    goToPosition(50, 0.5, 5);
-                    intake.setPower(-1);
-                    goToPosition(-400, 0.75,3);
-                    goToPosition(800, 0.5,3);
-                    intake.setPower(0);
-                    trigger(2000, 0.8);
-                    trigger(2000, 0.);*/
                     goToPosition(500, .75, 3);
                     break;
             }

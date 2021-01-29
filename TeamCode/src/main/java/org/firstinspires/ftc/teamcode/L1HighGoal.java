@@ -121,9 +121,9 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(3000, 0.7);
                     }
                     else if (bVoltage <= 12.6){
-                        trigger(4000, 0.75);
-                        trigger(3000, 0.75);
-                        trigger(3000, 0.75);
+                        trigger(4000, 0.735);
+                        trigger(3000, 0.735);
+                        trigger(3000, 0.735);
                     }
                     shooter.setPower(0);
                     goToPosition(500, .5, 3);
@@ -146,9 +146,9 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(3000, 0.7);
                     }
                     else if (bVoltage <= 12.6){
-                        trigger(4000, 0.75);
-                        trigger(3000, 0.75);
-                        trigger(3000, 0.75);
+                        trigger(4000, 0.735);
+                        trigger(3000, 0.735);
+                        trigger(3000, 0.735);
                     }
                     goToPosition(500, .5, 3);
                     break;
@@ -157,7 +157,7 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(950, 0.4, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);
-                    goToPosition(4400, 0.5, 3);
+                    goToPosition(4400, 0.5,3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
@@ -170,9 +170,9 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(3000, 0.7);
                     }
                     else if (bVoltage <= 12.6){
-                        trigger(4000, 0.75);
-                        trigger(3000, 0.75);
-                        trigger(3000, 0.75);
+                        trigger(4000, 0.735);
+                        trigger(3000, 0.735);
+                        trigger(3000, 0.735);
                     }
                     shooter.setPower(0);
                     goToPosition(500, .75, 3);

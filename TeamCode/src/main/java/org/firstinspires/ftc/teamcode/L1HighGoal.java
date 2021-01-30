@@ -100,6 +100,8 @@ public class L1HighGoal extends LinearOpMode {
             telemetry.update();
             sleep(750);
             //updateScreen();
+
+
             //wobbleServo.setPosition(0);
             //This switch tells what position to deliver wobble goal
             switch (ringState) {

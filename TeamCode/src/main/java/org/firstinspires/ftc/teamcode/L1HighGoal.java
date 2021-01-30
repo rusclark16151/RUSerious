@@ -17,7 +17,7 @@ import java.util.List;
 
 @Autonomous(name = "L1HighGoal", group = "L1")
 public class L1HighGoal extends LinearOpMode {
-
+ 
     DriveClass moveClark = new DriveClass();
     //DriveClassRamp moveClark = new DriveClassRamp();
 
@@ -88,10 +88,10 @@ public class L1HighGoal extends LinearOpMode {
             trigger(3000, 0.75);
         }
         if (toggle == false) {
-            goToPosition(750, 0.4, 5);
+            goToPosition(800, 0.4, 5);
          // goToPosition(-250,0.25,7);
-            goToPosition(-250,0.25,3);
-            sleep(500);
+            goToPosition(-300,0.25,3);
+            //sleep(500);
          // goToPosition(200,0.25,3);
             sleep(1000);
             //update screen is for tensorFlow to see the rings
@@ -105,7 +105,7 @@ public class L1HighGoal extends LinearOpMode {
             switch (ringState) {
                 case 0:
                     //Go to A
-                    goToPosition(1050, 0.4, 4);
+                    goToPosition(1100, 0.4, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);
                     goToPosition(2750, 0.5, 3);
@@ -115,7 +115,7 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-170, 0.25, 3);
                     sleep(500);
                     goToPosition(1350, 0.25, 5);
-                    if (bVoltage >= 12.6) {
+                    if (bVoltage >= 12.5) {
                         trigger(4000, 0.7);
                         trigger(3000, 0.7);
                         trigger(3000, 0.7);
@@ -130,7 +130,7 @@ public class L1HighGoal extends LinearOpMode {
                     break;
                 case 1:
                     //Go to B
-                    goToPosition(1050, 0.4, 4);
+                    goToPosition(1100, 0.4, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);
                     goToPosition(3450, 0.5, 3);
@@ -140,7 +140,7 @@ public class L1HighGoal extends LinearOpMode {
                     setWobble();
                     wobbleServo.setPosition(.75);
                     goToPosition(-1025, 0.25, 3);
-                    if (bVoltage >= 12.6) {
+                    if (bVoltage >= 12.5) {
                         trigger(4000, 0.7);
                         trigger(3000, 0.7);
                         trigger(3000, 0.7);
@@ -154,7 +154,7 @@ public class L1HighGoal extends LinearOpMode {
                     break;
                 case 2:
                     //Go to C
-                    goToPosition(950, 0.4, 4);
+                    goToPosition(1000, 0.4, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);
                     goToPosition(4400, 0.5,3);

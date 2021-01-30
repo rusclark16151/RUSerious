@@ -174,19 +174,19 @@ public class OneStickStrafe extends OpMode {
        //The following adjusts power for the shooting wheel. 1-10-21
         switch (count) {
             case 4:
-                Shooter.setPower(-.9);
+                Shooter.setPower(-0.8);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 3:
-                Shooter.setPower(-.8);
-                telemetry.addData("Shooter", Shooter.getPower());
-                break;
-            case 2:
                 Shooter.setPower(-0.75);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
-            case 1:
+            case 2:
                 Shooter.setPower(-0.70);
+                telemetry.addData("Shooter", Shooter.getPower());
+                break;
+            case 1:
+                Shooter.setPower(-0.65);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             //case 4:

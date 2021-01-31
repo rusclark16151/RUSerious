@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.security.KeyStore;
+
 @TeleOp(name = "Teleop1", group = "Training")
 public class OneStickStrafe extends OpMode {
 
@@ -28,6 +30,8 @@ public class OneStickStrafe extends OpMode {
     boolean speedChangeBumper;
     boolean hasSpeedToggled;
     boolean isSpeedHalf;
+    boolean IhaveRampedUp = false;
+    boolean IhaveRampedDown = false;
     float trigger;
     double x;
     double rx;
@@ -50,6 +54,10 @@ public class OneStickStrafe extends OpMode {
     double g2RY;
     double g2LY;
     double motorMutiplier = 1;
+    double lastRYval;
+    double lastRXval;
+    double lastLYval;
+    double lastLXval;
 
     @Override
     public void init() {
@@ -77,25 +85,49 @@ public class OneStickStrafe extends OpMode {
     //this is the main loop for the teleOP program when play is pressed
     @Override
     public void loop() {
-       /* g1L = gamepad1.left_stick_y;
-        g1R = gamepad1.right_stick_y;
-        g2L = gamepad2.left_stick_y;
-        g2R = gamepad2.right_stick_y;*/
         g2RY = gamepad2.right_stick_y;
         g2LY = gamepad2.left_stick_y;
-
-       /* frontLeftMotor.setPower(g1R);
-        backLeftMotor.setPower(g1L);
-        frontRightMotor.setPower(g2L);
-        backRightMotor.setPower(g2R);*/
 
         y = gamepad1.left_stick_y;
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
-        /*frontLeftMotor.setPower(-1 * (y + x + rx));
-        backLeftMotor.setPower(-1 * (y + x - rx));
-        frontRightMotor.setPower(1 * (y - x + rx));
-        backRightMotor.setPower(1 * (y - x - rx));*/
+
+// This if statement is to help the robot ramp up
+        if ((Math.abs(y) >= 0.5 || Math.abs(x) >= 0.5) && IhaveRampedUp == false){
+            runtime.reset();
+            runtime.startTime();
+            while (runtime.milliseconds() < 500) {
+                motorMutiplier = 0.2;
+                frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
+                backLeftMotor.setPower(motorMutiplier * (y + x - rx));
+                frontRightMotor.setPower(motorMutiplier * (y + x + rx));
+                backRightMotor.setPower(motorMutiplier * (y -  x + rx));
+                IhaveRampedUp = true;
+                IhaveRampedDown = false;
+            }
+        }
+        else {
+            motorMutiplier = 1;
+        }
+// This if statement is to help the robot ramp down
+        if (((Math.abs(y) < lastLYval && Math.abs(y) < 0.1)
+                || (Math.abs(x) < lastLXval && Math.abs(x) < 0.1)) && IhaveRampedDown == false ){
+            runtime.reset();
+            runtime.startTime();
+            while (runtime.milliseconds() < 500) {
+                motorMutiplier = 0.2;
+                frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
+                backLeftMotor.setPower(motorMutiplier * (y + x - rx));
+                frontRightMotor.setPower(motorMutiplier * (y + x + rx));
+                backRightMotor.setPower(motorMutiplier * (y -  x + rx));
+                IhaveRampedDown = true;
+                IhaveRampedUp = false;
+            }
+        }
+        else {
+            motorMutiplier = 1;
+        }
+
 
         frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
         backLeftMotor.setPower(motorMutiplier * (y + x - rx));
@@ -174,7 +206,7 @@ public class OneStickStrafe extends OpMode {
        //The following adjusts power for the shooting wheel. 1-10-21
         switch (count) {
             case 4:
-                Shooter.setPower(-0.8);
+                Shooter.setPower(-0.6);
                 telemetry.addData("Shooter", Shooter.getPower());
                 break;
             case 3:
@@ -272,6 +304,10 @@ public class OneStickStrafe extends OpMode {
         if (wobbleSet == false && iswobbleSet == false) {
             WSHasToggled = false;
         }
+        lastRYval = gamepad1.right_stick_y;
+        lastRXval = gamepad1.right_stick_x;
+        lastLYval = gamepad1.left_stick_y;
+        lastLXval = gamepad1.left_stick_x;
     }
 }
 

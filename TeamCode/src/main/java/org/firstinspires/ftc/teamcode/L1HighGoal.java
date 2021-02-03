@@ -88,7 +88,7 @@ public class L1HighGoal extends LinearOpMode {
             trigger(3000, 0.75);
         }
         if (toggle == false) {
-            goToPosition(800, 0.4, 5);
+            goToPosition(800, 0.6, 5);
          // goToPosition(-250,0.25,7);
             goToPosition(-300,0.25,3);
             //sleep(500);
@@ -107,16 +107,17 @@ public class L1HighGoal extends LinearOpMode {
             switch (ringState) {
                 case 0:
                     //Go to A
-                    goToPosition(1100, 0.4, 4);
+                    goToPosition(1100, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);
-                    goToPosition(2750, 0.5, 3);
+                    goToPosition(2550, 0.5, 3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
                     goToPosition(-150, 0.25, 3);
                     sleep(500);
-                    goToPosition(1350, 0.25, 5);
+                    goToPosition(-80,0.25, 7);
+                    goToPosition(1350, 0.6, 5);
                     if (bVoltage >= 13) {
                         trigger(4000, 0.65);
                         trigger(3000, 0.65);
@@ -128,20 +129,21 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(3000, 0.68);
                     }
                     shooter.setPower(0);
-                    goToPosition(500, .5, 3);
+                    goToPosition(500, 0.5, 3);
                     break;
                 case 1:
                     //Go to B
-                    goToPosition(1100, 0.4, 4);
+                    goToPosition(1100, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);
                     goToPosition(3450, 0.5, 3);
                     sleep(750);
-                    goToPosition(1400, 0.25, 5);
+                    goToPosition(1400, 0.6, 5);
                     sleep(500);
                     setWobble();
                     wobbleServo.setPosition(.75);
                     goToPosition(-1025, 0.25, 3);
+                    goToPosition(-120,0.25, 7);
                     if (bVoltage >= 13) {
                         trigger(4000, 0.65);
                         trigger(3000, 0.65);
@@ -152,11 +154,11 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(3000, 0.68);
                         trigger(3000, 0.68);
                     }
-                    goToPosition(500, .5, 3);
+                    goToPosition(500, 0.5, 3);
                     break;
                 case 2:
                     //Go to C
-                    goToPosition(1000, 0.4, 4);
+                    goToPosition(1000, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);
                     goToPosition(4400, 0.5,3);
@@ -165,8 +167,8 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-1800, 0.5, 3);
                     sleep(500);
-                    goToPosition(1100, 0.25, 5);
-                    goToPosition(75, .25,6);
+                    goToPosition(1100, 0.6, 5);
+                    goToPosition(75, 0.25,6);
                     if (bVoltage >= 13) {
                         trigger(4000, 0.65);
                         trigger(3000, 0.65);
@@ -207,24 +209,33 @@ public class L1HighGoal extends LinearOpMode {
         }
         //this is for strafe left
         if (state == 4) {
+            moveClark.Strafe = true;
             moveClark.topRight.setTargetPosition(target);
             moveClark.topLeft.setTargetPosition(-target);
             moveClark.bottomRight.setTargetPosition(-target);
             moveClark.bottomLeft.setTargetPosition(target);
-            moveClark.speed = speed;
+            moveClark.speedTl = speed - 0.2;
+            moveClark.speedTr = speed - 0.2;
+            moveClark.speedBl = speed - 0.17;
+            moveClark.speedBr = speed - 0.18;
             moveClark.encoderMove(3);
         }
         //this is for strafe right
         if (state == 5) {
+            moveClark.Strafe = true;
             moveClark.topRight.setTargetPosition(-target);
             moveClark.topLeft.setTargetPosition(target);
             moveClark.bottomRight.setTargetPosition(target);
             moveClark.bottomLeft.setTargetPosition(-target);
-            moveClark.speed = speed;
+            moveClark.speedTl = speed - 0.2;
+            moveClark.speedTr = speed - 0.2;
+            moveClark.speedBl = speed - 0.17;
+            moveClark.speedBr = speed - 0.18;
             moveClark.encoderMove(3);
         }
         //this is for right pivot
         if (state == 6) {
+            moveClark.Strafe = false;
             moveClark.topRight.setTargetPosition(0);
             moveClark.topLeft.setTargetPosition(target);
             moveClark.bottomRight.setTargetPosition(0);
@@ -234,6 +245,7 @@ public class L1HighGoal extends LinearOpMode {
         }
         // this is for left pivot
         if (state == 7) {
+            moveClark.Strafe = false;
             moveClark.topRight.setTargetPosition(-target);
             moveClark.topLeft.setTargetPosition(0);
             moveClark.bottomRight.setTargetPosition(-target);
@@ -243,6 +255,7 @@ public class L1HighGoal extends LinearOpMode {
         }
         // this is for point turn right
         if (state == 8) {
+            moveClark.Strafe = false;
             moveClark.topRight.setTargetPosition(-target);
             moveClark.topLeft.setTargetPosition(target);
             moveClark.bottomRight.setTargetPosition(-target);
@@ -252,6 +265,7 @@ public class L1HighGoal extends LinearOpMode {
         }
         // this is for point turn left
         if (state == 9) {
+            moveClark.Strafe = false;
             moveClark.topRight.setTargetPosition(target);
             moveClark.topLeft.setTargetPosition(-target);
             moveClark.bottomRight.setTargetPosition(target);
@@ -260,6 +274,7 @@ public class L1HighGoal extends LinearOpMode {
             moveClark.encoderMove(3);
         }
         if (state <= 3) {
+            moveClark.Strafe = false;
             moveClark.encoderMove(state);
         }
       if (state >= 3) {

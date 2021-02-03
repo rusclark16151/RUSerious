@@ -18,6 +18,7 @@ public class DriveClass {
     double speedBl;
     double speedTr;
     double speedTl;
+    boolean Strafe;
     HardwareMap hwMap = null; //<-You for sure need this in order to pass the HW methods
 
 
@@ -91,10 +92,18 @@ public class DriveClass {
                 bottomLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 topRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 bottomRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                topLeft.setPower(speed);
-                topRight.setPower(speed);
-                bottomLeft.setPower(speed);
-                bottomRight.setPower(speed);
+               if (Strafe == false) {
+                   topLeft.setPower(speed);
+                   topRight.setPower(speed);
+                   bottomLeft.setPower(speed);
+                   bottomRight.setPower(speed);
+               }
+               if (Strafe) {
+                    topLeft.setPower(speedTl);
+                    topRight.setPower(speedTr);
+                    bottomLeft.setPower(speedBl);
+                    bottomRight.setPower(speedBr);
+                }
                 break;
             default:
                 break;

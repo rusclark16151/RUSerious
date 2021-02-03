@@ -116,8 +116,8 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-150, 0.25, 3);
                     sleep(500);
-                    goToPosition(-80,0.25, 7);
-                    goToPosition(1350, 0.6, 5);
+                    goToPosition(-120,0.25, 7);
+                    goToPosition(1400, 0.6, 5);
                     if (bVoltage >= 13) {
                         trigger(4000, 0.65);
                         trigger(3000, 0.65);

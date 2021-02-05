@@ -93,39 +93,41 @@ public class OneStickStrafe extends OpMode {
         rx = gamepad1.right_stick_x;
 
 // This if statement is to help the robot ramp up
-        if ((Math.abs(y) >= 0.5 || Math.abs(x) >= 0.5) && IhaveRampedUp == false){
-            runtime.reset();
-            runtime.startTime();
-            while (runtime.milliseconds() < 500) {
-                motorMutiplier = 0.2;
-                frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
-                backLeftMotor.setPower(motorMutiplier * (y + x - rx));
-                frontRightMotor.setPower(motorMutiplier * (y + x + rx));
-                backRightMotor.setPower(motorMutiplier * (y -  x + rx));
-                IhaveRampedUp = true;
-                IhaveRampedDown = false;
+        if(isSpeedHalf == false) {
+            if ((Math.abs(y) >= 0.5 || Math.abs(x) >= 0.5) && IhaveRampedUp == false) {
+                runtime.reset();
+                runtime.startTime();
+                while (runtime.milliseconds() < 200) {
+                    motorMutiplier = 0.2;
+                    frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
+                    backLeftMotor.setPower(motorMutiplier * (y + x - rx));
+                    frontRightMotor.setPower(motorMutiplier * (y + x + rx));
+                    backRightMotor.setPower(motorMutiplier * (y - x + rx));
+                    IhaveRampedUp = true;
+                    IhaveRampedDown = false;
+                }
+            } else {
+                motorMutiplier = 1;
             }
-        }
-        else {
-            motorMutiplier = 1;
         }
 // This if statement is to help the robot ramp down
-        if (((Math.abs(y) < lastLYval && Math.abs(y) < 0.1)
-                || (Math.abs(x) < lastLXval && Math.abs(x) < 0.1)) && IhaveRampedDown == false ){
-            runtime.reset();
-            runtime.startTime();
-            while (runtime.milliseconds() < 500) {
-                motorMutiplier = 0.2;
-                frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
-                backLeftMotor.setPower(motorMutiplier * (y + x - rx));
-                frontRightMotor.setPower(motorMutiplier * (y + x + rx));
-                backRightMotor.setPower(motorMutiplier * (y -  x + rx));
-                IhaveRampedDown = true;
-                IhaveRampedUp = false;
+        if (isSpeedHalf == false) {
+            if (((Math.abs(y) < lastLYval && Math.abs(y) < 0.1)
+                    || (Math.abs(x) < lastLXval && Math.abs(x) < 0.1)) && IhaveRampedDown == false) {
+                runtime.reset();
+                runtime.startTime();
+                while (runtime.milliseconds() < 200) {
+                    motorMutiplier = 0.2;
+                    frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
+                    backLeftMotor.setPower(motorMutiplier * (y + x - rx));
+                    frontRightMotor.setPower(motorMutiplier * (y + x + rx));
+                    backRightMotor.setPower(motorMutiplier * (y - x + rx));
+                    IhaveRampedDown = true;
+                    IhaveRampedUp = false;
+                }
+            } else {
+                motorMutiplier = 1;
             }
-        }
-        else {
-            motorMutiplier = 1;
         }
 
 

@@ -125,9 +125,10 @@ public class OneStickStrafe extends OpMode {
                     IhaveRampedDown = true;
                     IhaveRampedUp = false;
                 }
-            } else {
-                motorMutiplier = 1;
             }
+        else {
+            motorMutiplier = 1;
+          }
         }
 
 

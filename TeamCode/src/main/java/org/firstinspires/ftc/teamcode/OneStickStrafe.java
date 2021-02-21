@@ -25,6 +25,8 @@ public class OneStickStrafe extends OpMode {
 
     boolean isIntakeOn;
     boolean IntakeON;
+    boolean IntakeReverse;
+    boolean isIntakeReverseOn;
     boolean wobbleSet;
     boolean iswobbleSet;
     boolean speedChangeBumper;
@@ -39,6 +41,7 @@ public class OneStickStrafe extends OpMode {
     int count = 0;
     boolean hascount = false;
     boolean hasToggled = false;
+    boolean hasToggledReverse = false;
     boolean WSHasToggled = false;
     double servoMax = 0.25;
     double servoMin = 0.5;
@@ -92,7 +95,7 @@ public class OneStickStrafe extends OpMode {
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
 
-// This if statement is to help the robot ramp up
+/*// This if statement is to help the robot ramp up
         if(isSpeedHalf == false) {
             if ((Math.abs(y) >= 0.5 || Math.abs(x) >= 0.5) && IhaveRampedUp == false) {
                 runtime.reset();
@@ -129,7 +132,7 @@ public class OneStickStrafe extends OpMode {
         else {
             motorMutiplier = 1;
           }
-        }
+        }*/
 
 
         frontLeftMotor.setPower(motorMutiplier * (y - x - rx));
@@ -145,6 +148,7 @@ public class OneStickStrafe extends OpMode {
        //}
 
         IntakeON = gamepad2.a;
+        IntakeReverse = gamepad2.b;
         speedChangeBumper = gamepad1.right_bumper;
 
         dpadUp = gamepad2.dpad_up;
@@ -256,6 +260,22 @@ public class OneStickStrafe extends OpMode {
         if (IntakeON == false && isIntakeOn == false) {
             hasToggled = false;
         }
+        // This is tp reverse the intake
+        if (IntakeReverse && isIntakeReverseOn == false && hasToggledReverse == false) {
+            isIntakeReverseOn = true;
+            Intake.setPower(-1);
+        }
+        if (IntakeReverse && isIntakeReverseOn && hasToggledReverse) {
+            isIntakeReverseOn = false;
+            Intake.setPower(0);
+        }
+        if (IntakeReverse == false && isIntakeReverseOn) {
+            hasToggledReverse = true;
+        }
+        if (IntakeReverse == false && isIntakeReverseOn == false) {
+            hasToggledReverse = false;
+        }
+
 
         //This code changes the motorMultipler
 

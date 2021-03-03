@@ -1,4 +1,4 @@
- package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,9 +15,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 
-@Autonomous(name = "L1HighGoal", group = "L1")
-public class L1HighGoal extends LinearOpMode {
- 
+@Autonomous(name = "Faster", group = "Fast")
+public class FasterHighGoal extends LinearOpMode {
+
     DriveClass moveClark = new DriveClass();
     //DriveClassRamp moveClark = new DriveClassRamp();
 
@@ -37,6 +37,7 @@ public class L1HighGoal extends LinearOpMode {
     boolean toggle = false;
     boolean intakeHasToggled = false;
     double bVoltage;
+    boolean turnShooterOnOff = false;
 
 
 
@@ -50,7 +51,6 @@ public class L1HighGoal extends LinearOpMode {
     private static final String VUFORIA_KEY = "AfYhcgT/////AAABmY16qBV+VUYup/dTff2epNNJVPrr6uAhiU+zTVjCmmRK0D7Gbushq8A3zvGHLjMYQAnPMfHjH5lsZeNxs5fv7lqc4ZlfOiwIONYnMsBXyQlNRrlL22Xsm01kFIMJNeF64yt2R5ztxYyb9DdHI+ycINWovCtyx1+d2bvleCzUbj81z3gL9YWdzIfGxfOY6mbqEfo1ZozuuF104RKaUI6GtlNxXBGEkTBXMjxqEnzDKxtuIOwz43rHDKNVkluOxFbMZRG3mfcHIVk0egf5vC9v+0LoGf+tavMfpuMzMvkZ1nZakPKWUc2TOgOIhIaBMNCsCK/vXOB6fr+iGVjdegkGq2hlTBFo7/eqBim1VCAlZzt5";
     private TFObjectDetector tfod;
     private VuforiaLocalizer vuforia;
-
 
 
     // HardwareMap hardwareMap = null; Do not do this. It broke it
@@ -73,8 +73,7 @@ public class L1HighGoal extends LinearOpMode {
          **/
         if (tfod != null) {
             tfod.activate();
-            //tfod.setZoom(2.5, 1.78);
-            tfod.setZoom(2.5, 1);
+            tfod.setZoom(2.5, 1.78);
         }
 
         waitForStart();
@@ -85,21 +84,22 @@ public class L1HighGoal extends LinearOpMode {
 
         if (toggle == true) {
             intakeHasToggled = true;
-            trigger(4000, 0.85);
+            trigger(1000, 0.65);
             trigger(2000, 0.8);
             trigger(3000, 0.75);
         }
         if (toggle == false) {
-        /*goToPosition(800, 0.6, 5);
-        goToPosition(-250,0.25,7);
-        goToPosition(-300,0.25,3);
-        sleep(500);
-        goToPosition(200,0.25,3);*/
-            //sleep(250);
+            goToPosition(800, 0.6, 5);
+            // goToPosition(-250,0.25,7);
+            goToPosition(-300,0.25,3);
+            //sleep(500);
+            // goToPosition(200,0.25,3);
+            sleep(1000);
             //update screen is for tensorFlow to see the rings
             updateScreen();
-            //telemetry.addData(String.format("ringtype"), ringState);
-            //telemetry.update();
+            telemetry.addData(String.format("ringtype"), ringState);
+            telemetry.update();
+            sleep(750);
             //updateScreen();
 
 
@@ -108,9 +108,9 @@ public class L1HighGoal extends LinearOpMode {
             switch (ringState) {
                 case 0:
                     //Go to A
-                    /*goToPosition(1100, 0.6, 4);
+                    goToPosition(1100, 0.6, 4);
                     sleep(250);
-                    goToPosition(-150, 0.25, 3);*/
+                    goToPosition(-150, 0.25, 3);
                     goToPosition(2550, 0.5, 3);
                     sleep(250);
                     setWobble();
@@ -118,66 +118,67 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-150, 0.25, 3);
                     sleep(500);
                     goToPosition(-120,0.25, 7);
-                    goToPosition(1250, 0.6, 5);
+                    goToPosition(1350, 0.6, 5);
                     if (bVoltage >= 13) {
-                        trigger(3000, 0.7);
-                        trigger(2000, 0.7);
-                        trigger(2000, 0.7);
+                        trigger(2000, 0.65);
+                        trigger(1000, 0.65);
+                        trigger(1000, 0.65);
                     }
                     else if (bVoltage < 13){
-                        trigger(3000, 0.72);
-                        trigger(2000, 0.72);
-                        trigger(2000, 0.72);
+                        trigger(2000, 0.68);
+                        trigger(1000, 0.68);
+                        trigger(1000, 0.68);
                     }
                     shooter.setPower(0);
                     goToPosition(500, 0.5, 3);
                     break;
                 case 1:
                     //Go to B
-                    /*goToPosition(1100, 0.6, 4);
+                    goToPosition(1100, 0.6, 4);
                     sleep(250);
-                    goToPosition(-150, 0.25, 3);*/
+                    goToPosition(-150, 0.25, 3);
                     goToPosition(3300, 0.5, 3);
                     sleep(750);
-                    goToPosition(1600, 0.6, 5);
+                    goToPosition(1850, 0.6, 5);
                     sleep(500);
                     setWobble();
                     wobbleServo.setPosition(.75);
                     goToPosition(-1100, 0.25, 3);
-                    if (bVoltage >= 13) {
-                        trigger(3000, 0.7);
-                        trigger(2000, 0.7);
-                        trigger(2000, 0.7);
+                    if (bVoltage >= 13){
+                        trigger(2000, 0.65);
+                        trigger(1000, 0.65);
+                        trigger(1000, 0.65);
                     }
                     else if (bVoltage < 13){
-                        trigger(3000, 0.72);
-                        trigger(2000, 0.72);
-                        trigger(2000, 0.72);
+                        trigger(2000, 0.68);
+                        trigger(1000, 0.68);
+                        trigger(1000, 0.68);
                     }
                     goToPosition(500, 0.5, 3);
                     break;
                 case 2:
                     //Go to C
-                    /*goToPosition(1000, 0.6, 4);
+                    goToPosition(1000, 0.6, 4);
                     sleep(250);
-                    goToPosition(-150, 0.25, 3);*/
+                    goToPosition(-150, 0.25, 3);
                     goToPosition(4400, 0.5,3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
                     goToPosition(-1850, 0.5, 3);
                     sleep(500);
-                    goToPosition(1250, 0.6, 5);
-                   // goToPosition(50, 0.25,6);
+                    turnShooterOnOff = true;
+                    goToPosition(1375, 0.6, 5);
+                    turnShooterOnOff = false;
                     if (bVoltage >= 13) {
-                        trigger(3000, 0.7);
-                        trigger(2000, 0.7);
-                        trigger(2000, 0.7);
+                        trigger(2000, 0.65);
+                        trigger(1000, 0.65);
+                        trigger(1000, 0.65);
                     }
                     else if (bVoltage < 13){
-                        trigger(3000, 0.72);
-                        trigger(2000, 0.72);
-                        trigger(2000, 0.72);
+                        trigger(2000,0.68);
+                        trigger(1000,0.68);
+                        trigger(1000,0.68);
                     }
                     shooter.setPower(0);
                     goToPosition(500, .75, 3);
@@ -277,7 +278,7 @@ public class L1HighGoal extends LinearOpMode {
             moveClark.Strafe = false;
             moveClark.encoderMove(state);
         }
-      if (state >= 3) {
+        if (state >= 3) {
             moveRobot();
         }
 
@@ -286,18 +287,21 @@ public class L1HighGoal extends LinearOpMode {
 
     public void moveRobot(){
         timeoutS = 50;
-       // moveClark.encoderMove(3);
+        // moveClark.encoderMove(3);
         while (opModeIsActive() &&
                 (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
                         moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
-           // Display it for the driver.
+            // Display it for the driver.
             telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-           // telemetry.addData("voltage", bVoltage);
+            // telemetry.addData("voltage", bVoltage);
 
             newLeftTarget = moveClark.topLeft.getCurrentPosition();
             newRightTarget = moveClark.topRight.getCurrentPosition();
             telemetry.addData("Speed", moveClark.speed);
             telemetry.update();
+            if (turnShooterOnOff == true){
+                shooter.setPower(50);
+            }
         }
 
     }
@@ -366,7 +370,7 @@ public class L1HighGoal extends LinearOpMode {
                             case "Quad":
                                 ringState = 2;
                                 telemetry.addData(String.format("ringType Quad (%d)", i), ringState);
-                               break;
+                                break;
                         }
                     }
                     telemetry.update();
@@ -410,7 +414,7 @@ public class L1HighGoal extends LinearOpMode {
     public void trigger(int maxTime, double tPower) {
         runtime.reset();
         while (runtime.milliseconds() <= maxTime) {
-            shooter.setPower(tPower);
+            //shooter.setPower(tPower);
             if (runtime.milliseconds() > (maxTime - 1000) && runtime.milliseconds() <= (maxTime - 500)) {
                 hammer.setPosition(servoMax);
             }
@@ -425,5 +429,6 @@ public class L1HighGoal extends LinearOpMode {
         wobbleServo.setPosition(0);
     }
 }
+
 
 

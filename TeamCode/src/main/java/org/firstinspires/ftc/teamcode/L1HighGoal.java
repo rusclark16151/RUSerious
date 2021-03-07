@@ -120,9 +120,9 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-120,0.25, 7);
                     goToPosition(1250, 0.6, 5);
                     if (bVoltage >= 13) {
-                        trigger(3000, 0.7);
-                        trigger(2000, 0.7);
-                        trigger(2000, 0.7);
+                        trigger(3000, 0.665);
+                        trigger(2000, 0.665);
+                        trigger(2000, 0.665);
                     }
                     else if (bVoltage < 13){
                         trigger(3000, 0.72);
@@ -145,9 +145,9 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-1100, 0.25, 3);
                     if (bVoltage >= 13) {
-                        trigger(3000, 0.7);
-                        trigger(2000, 0.7);
-                        trigger(2000, 0.7);
+                        trigger(3000, 0.665);
+                        trigger(2000, 0.665);
+                        trigger(2000, 0.665);
                     }
                     else if (bVoltage < 13){
                         trigger(3000, 0.72);
@@ -170,9 +170,9 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(1250, 0.6, 5);
                    // goToPosition(50, 0.25,6);
                     if (bVoltage >= 13) {
-                        trigger(3000, 0.7);
-                        trigger(2000, 0.7);
-                        trigger(2000, 0.7);
+                        trigger(3000, 0.665);
+                        trigger(2000, 0.665);
+                        trigger(2000, 0.665);
                     }
                     else if (bVoltage < 13){
                         trigger(3000, 0.72);

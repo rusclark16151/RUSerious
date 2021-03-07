@@ -27,13 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -69,7 +68,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @TeleOp(name = "Sensor: Color", group = "Sensor")
 
 public class SensorColor extends LinearOpMode {
-
+  int count = 0;
+  boolean hasCount = false;
   /** The colorSensor field will contain a reference to our color sensor hardware object */
   NormalizedColorSensor colorSensor;
 
@@ -207,7 +207,16 @@ public class SensorColor extends LinearOpMode {
        * Note that the reported distance is only useful at very close range, and is impacted by
        * ambient light and surface reflectivity. */
       if (colorSensor instanceof DistanceSensor) {
-        telemetry.addData("Distance (cm)", "%.3f", ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM));
+        double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM);
+        telemetry.addData("Distance (cm)", "%.3f", distance );
+        if ((distance < 3)&&(hasCount == false)) {
+          count = count + 1;
+          hasCount = true;
+        }
+        if ((distance > 3)&&(hasCount == true)) {
+          hasCount = false;
+        }
+        telemetry.addData("count", count);
       }
 
       telemetry.update();

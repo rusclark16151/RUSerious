@@ -277,7 +277,7 @@ public class OneStickStrafe extends OpMode {
         }
 
 
-        //This code changes the motorMultipler
+        //This code changes the motorMultiplier
 
         if (speedChangeBumper && isSpeedHalf == false && hasSpeedToggled == false) {
             isSpeedHalf = true;

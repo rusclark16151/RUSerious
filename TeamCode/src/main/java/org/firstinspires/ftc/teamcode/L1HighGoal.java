@@ -3,11 +3,13 @@
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -36,6 +38,9 @@ public class L1HighGoal extends LinearOpMode {
     Servo wobbleServo;
     boolean toggle = false;
     boolean intakeHasToggled = false;
+    boolean AAE = false;
+    boolean ABE = false;
+    boolean ACE = false;
     double bVoltage;
 
 
@@ -111,7 +116,7 @@ public class L1HighGoal extends LinearOpMode {
                     /*goToPosition(1100, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);*/
-                    goToPosition(2550, 0.5, 3);
+                    goToPosition(2550, 0.5 , 3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
@@ -125,7 +130,8 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(2000, 0.665);
                     }
                     else if (bVoltage < 13){
-                        trigger(3000, 0.72);
+                        //Don't forget to change the first tPower to .72
+                        trigger(3000, 0.8);
                         trigger(2000, 0.72);
                         trigger(2000, 0.72);
                     }
@@ -154,6 +160,8 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(2000, 0.72);
                         trigger(2000, 0.72);
                     }
+                    shooter.setPower(0);
+                    ABE = true;
                     goToPosition(500, 0.5, 3);
                     break;
                 case 2:
@@ -180,9 +188,36 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(2000, 0.72);
                     }
                     shooter.setPower(0);
+                    //
+
                     goToPosition(500, .75, 3);
                     break;
             }
+        }
+    }
+    public void goToPosition(int Ptarget, double Pspeed, int Pstate) throws InterruptedException {
+        encoders(0, 0, 1);
+        encoders(Ptarget, Pspeed, 2);
+        if (Pstate == 3) {
+            encoders(Ptarget, Pspeed, 3);
+        }
+        if (Pstate == 4) {
+            encoders(Ptarget, Pspeed, 4);
+        }
+        if (Pstate == 5) {
+            encoders(Ptarget, Pspeed, 5);
+        }
+        if (Pstate == 6) {
+            encoders(Ptarget, Pspeed, 6);
+        }
+        if (Pstate == 7) {
+            encoders(Ptarget, Pspeed, 7);
+        }
+        if (Pstate == 8) {
+            encoders(Ptarget, Pspeed, 8);
+        }
+        if (Pstate == 9) {
+            encoders(Ptarget, Pspeed, 9);
         }
     }
 
@@ -287,19 +322,48 @@ public class L1HighGoal extends LinearOpMode {
     public void moveRobot(){
         timeoutS = 50;
        // moveClark.encoderMove(3);
+    if (!AAE && !ABE && !ACE) {
         while (opModeIsActive() &&
                 (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
                         moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
-           // Display it for the driver.
+            // Display it for the driver.
             telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-           // telemetry.addData("voltage", bVoltage);
+            // telemetry.addData("voltage", bVoltage);
 
             newLeftTarget = moveClark.topLeft.getCurrentPosition();
             newRightTarget = moveClark.topRight.getCurrentPosition();
             telemetry.addData("Speed", moveClark.speed);
             telemetry.update();
         }
+    }
+    if (!AAE && ABE && !ACE) {
+        while (opModeIsActive() &&
+                (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
+                        moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
+            // Display it for the driver.
+            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+            // telemetry.addData("voltage", bVoltage);
 
+            newLeftTarget = moveClark.topLeft.getCurrentPosition();
+            newRightTarget = moveClark.topRight.getCurrentPosition();
+            telemetry.addData("Speed", moveClark.speed);
+            telemetry.update();
+        }
+    }
+    if (!AAE && !ABE && ACE) {
+        while (opModeIsActive() &&
+                (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
+                        moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
+            // Display it for the driver.
+            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+            // telemetry.addData("voltage", bVoltage);
+
+            newLeftTarget = moveClark.topLeft.getCurrentPosition();
+            newRightTarget = moveClark.topRight.getCurrentPosition();
+            telemetry.addData("Speed", moveClark.speed);
+            telemetry.update();
+        }
+    }
     }
 
 
@@ -342,6 +406,7 @@ public class L1HighGoal extends LinearOpMode {
       */  //waitForStart();
 
         runtime.reset();
+        timeoutS = 2000;
         while (runtime.milliseconds() < timeoutS) {
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
@@ -382,31 +447,7 @@ public class L1HighGoal extends LinearOpMode {
         }
     }
 
-    public void goToPosition(int Ptarget, double Pspeed, int Pstate) throws InterruptedException {
-        encoders(0, 0, 1);
-        encoders(Ptarget, Pspeed, 2);
-        if (Pstate == 3) {
-            encoders(Ptarget, Pspeed, 3);
-        }
-        if (Pstate == 4) {
-            encoders(Ptarget, Pspeed, 4);
-        }
-        if (Pstate == 5) {
-            encoders(Ptarget, Pspeed, 5);
-        }
-        if (Pstate == 6) {
-            encoders(Ptarget, Pspeed, 6);
-        }
-        if (Pstate == 7) {
-            encoders(Ptarget, Pspeed, 7);
-        }
-        if (Pstate == 8) {
-            encoders(Ptarget, Pspeed, 8);
-        }
-        if (Pstate == 9) {
-            encoders(Ptarget, Pspeed, 9);
-        }
-    }
+
     public void trigger(int maxTime, double tPower) {
         runtime.reset();
         while (runtime.milliseconds() <= maxTime) {
@@ -424,6 +465,8 @@ public class L1HighGoal extends LinearOpMode {
         sleep(1000);
         wobbleServo.setPosition(0);
     }
+
+
 }
 
 

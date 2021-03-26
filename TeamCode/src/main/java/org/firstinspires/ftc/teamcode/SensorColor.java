@@ -35,6 +35,7 @@ import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -69,7 +70,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class SensorColor extends LinearOpMode {
   int count = 0;
+  int tCount = 0;
   boolean hasCount = false;
+  boolean touchCount = false;
+
+
+  DigitalChannel digitalTouch;  // Hardware Device Object
+
+
   /** The colorSensor field will contain a reference to our color sensor hardware object */
   NormalizedColorSensor colorSensor;
 
@@ -193,6 +201,7 @@ public class SensorColor extends LinearOpMode {
       // Update the hsvValues array by passing it to Color.colorToHSV()
       Color.colorToHSV(colors.toColor(), hsvValues);
 
+/*
       telemetry.addLine()
               .addData("Red", "%.3f", colors.red)
               .addData("Green", "%.3f", colors.green)
@@ -202,6 +211,7 @@ public class SensorColor extends LinearOpMode {
               .addData("Saturation", "%.3f", hsvValues[1])
               .addData("Value", "%.3f", hsvValues[2]);
       telemetry.addData("Alpha", "%.3f", colors.alpha);
+*/
 
       /* If this color sensor also has a distance sensor, display the measured distance.
        * Note that the reported distance is only useful at very close range, and is impacted by
@@ -217,6 +227,33 @@ public class SensorColor extends LinearOpMode {
           hasCount = false;
         }
         telemetry.addData("count", count);
+      }
+
+     //* Touch Sensor stuff*//*
+      digitalTouch = hardwareMap.get(DigitalChannel.class, "sensor_digital");
+      // set the digital channel to input.
+      digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+/*
+      if (digitalTouch instanceof DistanceSensor) {
+        double distance = ((DistanceSensor) digitalTouch).getDistance(DistanceUnit.CM);
+        if ((distance < 3)&&(hasCount == false)) {
+          count = count + 1;
+          hasCount = true;
+        }
+        if ((distance > 3)&&(hasCount == true)) {
+          hasCount = false;
+        }
+        telemetry.addData("count", count);
+      }*/
+
+
+      // send the info back to driver station using telemetry function.
+      // if the digital channel returns true it's HIGH and the button is unpressed.
+      if (digitalTouch.getState() == true) {
+        telemetry.addData("Digital Touch", "Is Not Pressed");
+      }
+      else {
+        telemetry.addData("Digital Touch", "Is Pressed");
       }
 
       telemetry.update();

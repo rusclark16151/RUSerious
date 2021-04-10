@@ -3,7 +3,9 @@
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
 import java.util.List;
 
 
@@ -28,6 +29,8 @@ public class L1HighGoal extends LinearOpMode {
     int timeoutS = 5000;
     int newRightTarget;
     int newLeftTarget;
+    int shooterleftTarget;
+    int shooterrightTarget;
     int ringState = 0;
     double servoMax = 0.25;
     double servoMin = 0.5;
@@ -38,14 +41,26 @@ public class L1HighGoal extends LinearOpMode {
     Servo wobbleServo;
     boolean toggle = false;
     boolean intakeHasToggled = false;
+
+    //Drive states
     boolean AAE = false;
     boolean ABE = false;
     boolean ACE = false;
+
+    //battery volt
     double bVoltage;
 
+    //Sensor count
+    int count = 0;
+    boolean hasCount = false;
+    NormalizedColorSensor colorSensor;
 
 
-    //short
+
+
+
+
+    //Bennett is short
 
     String howManyRings;
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
@@ -57,17 +72,20 @@ public class L1HighGoal extends LinearOpMode {
     private VuforiaLocalizer vuforia;
 
 
-
-    // HardwareMap hardwareMap = null; Do not do this. It broke it
     @Override
     public void runOpMode() throws InterruptedException {
 
+        //Hardware map configurations
         bVoltage = hardwareMap.voltageSensor.get("Control Hub").getVoltage();
         moveClark.hardwareSetup(hardwareMap);
         hammer = hardwareMap.servo.get("hammer");
         shooter = hardwareMap.dcMotor.get("shooter");
         intake = hardwareMap.dcMotor.get("intake");
         wobbleServo = hardwareMap.servo.get("wobble");
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
+
+
 
         //TF.tensorFlowMain(hardwareMap);
         initVuforia();
@@ -89,10 +107,10 @@ public class L1HighGoal extends LinearOpMode {
 
 
         if (toggle == true) {
-            intakeHasToggled = true;
-            trigger(4000, 0.85);
-            trigger(2000, 0.8);
-            trigger(3000, 0.75);
+            ABE = true;
+            goToPosition(-500,0.25,3);
+            goToPosition(500,0.25,3);
+
         }
         if (toggle == false) {
         /*goToPosition(800, 0.6, 5);
@@ -113,17 +131,19 @@ public class L1HighGoal extends LinearOpMode {
             switch (ringState) {
                 case 0:
                     //Go to A
+                    telemetry.addData("Path A", "Running to %7d :%7d", newLeftTarget, newRightTarget);
                     /*goToPosition(1100, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);*/
-                    goToPosition(2550, 0.5 , 3);
+                    goToPosition(2550, 0.65 , 3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-150, 0.25, 3);
+                    goToPosition(-150, 0.65, 3);
                     sleep(500);
-                    goToPosition(-120,0.25, 7);
+                    goToPosition(-120,0.40, 7);
                     goToPosition(1250, 0.6, 5);
+
                     if (bVoltage >= 13) {
                         trigger(3000, 0.665);
                         trigger(2000, 0.665);
@@ -131,7 +151,7 @@ public class L1HighGoal extends LinearOpMode {
                     }
                     else if (bVoltage < 13){
                         //Don't forget to change the first tPower to .72
-                        trigger(3000, 0.8);
+                        trigger(3000, 0.72);
                         trigger(2000, 0.72);
                         trigger(2000, 0.72);
                     }
@@ -140,6 +160,7 @@ public class L1HighGoal extends LinearOpMode {
                     break;
                 case 1:
                     //Go to B
+                    telemetry.addData("Path B", "Running to %7d :%7d", newLeftTarget, newRightTarget);
                     /*goToPosition(1100, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);*/
@@ -161,11 +182,16 @@ public class L1HighGoal extends LinearOpMode {
                         trigger(2000, 0.72);
                     }
                     shooter.setPower(0);
+                    shooterleftTarget = moveClark.topLeft.getTargetPosition();
+                    shooterrightTarget = moveClark.topRight.getTargetPosition();
+                    sleep(250);
                     ABE = true;
-                    goToPosition(500, 0.5, 3);
+                    goToPosition(-1000, 0.25, 3);
+                    goToPosition(-1*newLeftTarget, .5, 3);
                     break;
                 case 2:
                     //Go to C
+                    telemetry.addData("Path C", "Running to %7d :%7d", newLeftTarget, newRightTarget);
                     /*goToPosition(1000, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);*/
@@ -249,10 +275,14 @@ public class L1HighGoal extends LinearOpMode {
             moveClark.topLeft.setTargetPosition(-target);
             moveClark.bottomRight.setTargetPosition(-target);
             moveClark.bottomLeft.setTargetPosition(target);
-            moveClark.speedTl = speed - 0.2;
+/*            moveClark.speedTl = speed - 0.2;
             moveClark.speedTr = speed - 0.2;
             moveClark.speedBl = speed - 0.17;
-            moveClark.speedBr = speed - 0.18;
+            moveClark.speedBr = speed - 0.18;*/
+            moveClark.speedTl = speed;
+            moveClark.speedTr = speed;
+            moveClark.speedBl = speed;
+            moveClark.speedBr = speed;
             moveClark.encoderMove(3);
         }
         //this is for strafe right
@@ -262,10 +292,14 @@ public class L1HighGoal extends LinearOpMode {
             moveClark.topLeft.setTargetPosition(target);
             moveClark.bottomRight.setTargetPosition(target);
             moveClark.bottomLeft.setTargetPosition(-target);
-            moveClark.speedTl = speed - 0.2;
+/*            moveClark.speedTl = speed - 0.2;
             moveClark.speedTr = speed - 0.2;
             moveClark.speedBl = speed - 0.17;
-            moveClark.speedBr = speed - 0.18;
+            moveClark.speedBr = speed - 0.18;*/
+            moveClark.speedTl = speed;
+            moveClark.speedTr = speed;
+            moveClark.speedBl = speed;
+            moveClark.speedBr = speed;
             moveClark.encoderMove(3);
         }
         //this is for right pivot
@@ -322,12 +356,12 @@ public class L1HighGoal extends LinearOpMode {
     public void moveRobot(){
         timeoutS = 50;
        // moveClark.encoderMove(3);
+    //Without intake
     if (!AAE && !ABE && !ACE) {
         while (opModeIsActive() &&
                 (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
                         moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
             // Display it for the driver.
-            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
             // telemetry.addData("voltage", bVoltage);
 
             newLeftTarget = moveClark.topLeft.getCurrentPosition();
@@ -336,34 +370,68 @@ public class L1HighGoal extends LinearOpMode {
             telemetry.update();
         }
     }
+    //With intake-- Path B
     if (!AAE && ABE && !ACE) {
         while (opModeIsActive() &&
                 (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
-                        moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
+                        moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy() && ABE)) {
             // Display it for the driver.
-            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-            // telemetry.addData("voltage", bVoltage);
-
+            intake.setPower(-1);
             newLeftTarget = moveClark.topLeft.getCurrentPosition();
             newRightTarget = moveClark.topRight.getCurrentPosition();
             telemetry.addData("Speed", moveClark.speed);
-            telemetry.update();
-        }
-    }
-    if (!AAE && !ABE && ACE) {
-        while (opModeIsActive() &&
-                (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
-                        moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy())) {
-            // Display it for the driver.
-            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-            // telemetry.addData("voltage", bVoltage);
+            
+            if (count < 1) {
+                if (colorSensor instanceof DistanceSensor) {
+                    double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM);
+                    telemetry.addData("Distance (cm)", "%.3f", distance);
+                    if ((distance < 3.25) && (hasCount == false)) {
+                        hasCount = true;
+                    }
+                    if ((distance > 3.25) && (hasCount == true)) {
+                        count = count + 1;
+                        hasCount = false;
+                        intake.setPower(0);
+                        ABE = false;
+                    }
+                    telemetry.addData("count", count);
+                }
+            }
 
-            newLeftTarget = moveClark.topLeft.getCurrentPosition();
-            newRightTarget = moveClark.topRight.getCurrentPosition();
-            telemetry.addData("Speed", moveClark.speed);
             telemetry.update();
         }
     }
+    //With intake-- Path C
+        if (!AAE && !ABE && ACE) {
+            while (opModeIsActive() &&
+                    (moveClark.topLeft.isBusy() && moveClark.topRight.isBusy() &&
+                            moveClark.bottomLeft.isBusy() && moveClark.bottomRight.isBusy() && ACE)) {
+                // Display it for the driver.
+                intake.setPower(-1);
+                newLeftTarget = moveClark.topLeft.getCurrentPosition();
+                newRightTarget = moveClark.topRight.getCurrentPosition();
+                telemetry.addData("Speed", moveClark.speed);
+
+                if (count <= 3) {
+                    if (colorSensor instanceof DistanceSensor) {
+                        double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM);
+                        telemetry.addData("Distance (cm)", "%.3f", distance);
+                        if ((distance < 3.25) && (hasCount == false)) {
+                            hasCount = true;
+                        }
+                        if ((distance > 3.25) && (hasCount == true)) {
+                            count = count + 1;
+                            hasCount = false;
+                            intake.setPower(0);
+                            ACE = false;
+                        }
+                        telemetry.addData("count", count);
+                    }
+                }
+
+                telemetry.update();
+            }
+        }
     }
 
 

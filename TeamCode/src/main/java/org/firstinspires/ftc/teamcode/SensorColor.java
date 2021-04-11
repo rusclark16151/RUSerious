@@ -66,13 +66,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this Op Mode to the Driver Station OpMode list
  */
-@TeleOp(name = "Sensor: Color", group = "Sensor")
+@TeleOp(name = "Sensor: Color2", group = "Sensor")
 
 public class SensorColor extends LinearOpMode {
   int count = 0;
-  int tCount = 0;
   boolean hasCount = false;
-  boolean touchCount = false;
 
 
   DigitalChannel digitalTouch;  // Hardware Device Object
@@ -228,35 +226,6 @@ public class SensorColor extends LinearOpMode {
         }
         telemetry.addData("count", count);
       }
-
-     //* Touch Sensor stuff*//*
-      digitalTouch = hardwareMap.get(DigitalChannel.class, "sensor_digital");
-      // set the digital channel to input.
-      digitalTouch.setMode(DigitalChannel.Mode.INPUT);
-/*
-      if (digitalTouch instanceof DistanceSensor) {
-        double distance = ((DistanceSensor) digitalTouch).getDistance(DistanceUnit.CM);
-        if ((distance < 3)&&(hasCount == false)) {
-          count = count + 1;
-          hasCount = true;
-        }
-        if ((distance > 3)&&(hasCount == true)) {
-          hasCount = false;
-        }
-        telemetry.addData("count", count);
-      }*/
-
-
-      // send the info back to driver station using telemetry function.
-      // if the digital channel returns true it's HIGH and the button is unpressed.
-      if (digitalTouch.getState() == true) {
-        telemetry.addData("Digital Touch", "Is Not Pressed");
-      }
-      else {
-        telemetry.addData("Digital Touch", "Is Pressed");
-      }
-
-      telemetry.update();
 
       // Change the Robot Controller's background color to match the color detected by the color sensor.
       relativeLayout.post(new Runnable() {

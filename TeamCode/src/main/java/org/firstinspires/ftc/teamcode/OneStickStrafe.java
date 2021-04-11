@@ -78,10 +78,10 @@ public class OneStickStrafe extends OpMode {
         clawServo.setPosition(0.37); //closed the claw all the way
 
 
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         Intake.setDirection(DcMotorSimple.Direction.REVERSE);
-        Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+        Shooter.setDirection(DcMotorSimple.Direction.FORWARD);
         //Shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -168,7 +168,7 @@ public class OneStickStrafe extends OpMode {
                         while (runtime.milliseconds() <= 250 && count == 0){
                             Shooter.setPower(0.05);
                         }
-                        Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+                        Shooter.setDirection(DcMotorSimple.Direction.FORWARD);
                         /*runtime.reset();
                         runtime.startTime();
                         if (runtime.milliseconds() <= 500){

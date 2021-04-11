@@ -141,22 +141,22 @@ public class L1HighGoal extends LinearOpMode {
                     wobbleServo.setPosition(.75);
                     goToPosition(-150, 0.65, 3);
                     sleep(500);
-                    goToPosition(-120,0.40, 7);
+                    goToPosition(-120,0.50, 7);
                     goToPosition(1250, 0.6, 5);
 
-                    if (bVoltage >= 13) {
+                    if (bVoltage >= 12.8) {
                         trigger(3000, 0.665);
                         trigger(2000, 0.665);
                         trigger(2000, 0.665);
                     }
-                    else if (bVoltage < 13){
+                    else if (bVoltage < 12.8){
                         //Don't forget to change the first tPower to .72
                         trigger(3000, 0.72);
                         trigger(2000, 0.72);
                         trigger(2000, 0.72);
                     }
                     shooter.setPower(0);
-                    goToPosition(500, 0.5, 3);
+                    goToPosition(700, 0.5, 3);
                     break;
                 case 1:
                     //Go to B
@@ -164,19 +164,59 @@ public class L1HighGoal extends LinearOpMode {
                     /*goToPosition(1100, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);*/
-                    goToPosition(3300, 0.5, 3);
+                    goToPosition(3300, 0.65, 3);
                     sleep(750);
-                    goToPosition(1600, 0.6, 5);
+                    goToPosition(1200, 0.5, 5);
                     sleep(500);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-1100, 0.25, 3);
-                    if (bVoltage >= 13) {
+                    goToPosition(-1100, 0.5, 3);
+                    goToPosition(-100,0.5,7);
+                    if (bVoltage >= 12.8) {
                         trigger(3000, 0.665);
                         trigger(2000, 0.665);
                         trigger(2000, 0.665);
                     }
-                    else if (bVoltage < 13){
+                    else if (bVoltage < 12.8){
+                        trigger(3000, 0.73);
+                        trigger(2000, 0.73);
+                        trigger(2000, 0.73);
+                    }
+                    shooter.setPower(0);
+                    shooterleftTarget = moveClark.topLeft.getTargetPosition();
+                    shooterrightTarget = moveClark.topRight.getTargetPosition();
+                    sleep(250);
+                    ABE = true;
+                    goToPosition(-1000, 0.25, 3);
+                    goToPosition(-1*newLeftTarget, 0.5, 3);
+                    if (bVoltage >= 12.8) {
+                        trigger(3000, 0.665);
+                    }
+                    else if (bVoltage < 12.8){
+                        trigger(3000, 0.73);
+                    }
+                    goToPosition(500, 0.5, 3);
+                    break;
+                case 2:
+                    //Go to C
+                    telemetry.addData("Path C", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                    /*goToPosition(1000, 0.6, 4);
+                    sleep(250);
+                    goToPosition(-150, 0.25, 3);*/
+                    goToPosition(4400, 0.65,3);
+                    sleep(250);
+                    setWobble();
+                    wobbleServo.setPosition(.75);
+                    goToPosition(-1850, 0.65, 3);
+                    sleep(500);
+                    goToPosition(1250, 0.6, 5);
+                   // goToPosition(50, 0.25,6);
+                    if (bVoltage >= 12.8) {
+                        trigger(3000, 0.665);
+                        trigger(2000, 0.665);
+                        trigger(2000, 0.665);
+                    }
+                    else if (bVoltage < 12.8){
                         trigger(3000, 0.72);
                         trigger(2000, 0.72);
                         trigger(2000, 0.72);
@@ -185,38 +225,26 @@ public class L1HighGoal extends LinearOpMode {
                     shooterleftTarget = moveClark.topLeft.getTargetPosition();
                     shooterrightTarget = moveClark.topRight.getTargetPosition();
                     sleep(250);
-                    ABE = true;
-                    goToPosition(-1000, 0.25, 3);
-                    goToPosition(-1*newLeftTarget, .5, 3);
-                    break;
-                case 2:
-                    //Go to C
-                    telemetry.addData("Path C", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-                    /*goToPosition(1000, 0.6, 4);
+                    goToPosition(-1000, 1, 3);
+                    goToPosition(150, 0.5, 3);
                     sleep(250);
-                    goToPosition(-150, 0.25, 3);*/
-                    goToPosition(4400, 0.5,3);
-                    sleep(250);
-                    setWobble();
-                    wobbleServo.setPosition(.75);
-                    goToPosition(-1850, 0.5, 3);
-                    sleep(500);
-                    goToPosition(1250, 0.6, 5);
-                   // goToPosition(50, 0.25,6);
-                    if (bVoltage >= 13) {
-                        trigger(3000, 0.665);
+                    ACE = true;
+                    goToPosition(-600, 0.25, 3);
+                    goToPosition(-1*newLeftTarget, 0.5, 3);
+                    intake.setPower(0);
+                    goToPosition(-225,0.25,7);
+                    if (bVoltage >= 12.8) {
                         trigger(2000, 0.665);
-                        trigger(2000, 0.665);
+                        trigger(1500, 0.665);
+                        trigger(1500, 0.665);
                     }
-                    else if (bVoltage < 13){
-                        trigger(3000, 0.72);
+                    else if (bVoltage < 12.8){
                         trigger(2000, 0.72);
-                        trigger(2000, 0.72);
+                        trigger(1500, 0.72);
+                        trigger(1500, 0.72);
                     }
-                    shooter.setPower(0);
-                    //
-
-                    goToPosition(500, .75, 3);
+                    ACE = false;
+                    goToPosition(1300, 0.85, 3);
                     break;
             }
         }
@@ -385,16 +413,18 @@ public class L1HighGoal extends LinearOpMode {
                 if (colorSensor instanceof DistanceSensor) {
                     double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM);
                     telemetry.addData("Distance (cm)", "%.3f", distance);
-                    if ((distance < 3.25) && (hasCount == false)) {
+                    if ((distance < 3) && (hasCount == false)) {
                         hasCount = true;
                     }
-                    if ((distance > 3.25) && (hasCount == true)) {
+                    if ((distance > 3) && (hasCount == true)) {
                         count = count + 1;
                         hasCount = false;
                         intake.setPower(0);
                         ABE = false;
                     }
                     telemetry.addData("count", count);
+                    telemetry.addData("intake", intake);
+
                 }
             }
 
@@ -416,12 +446,14 @@ public class L1HighGoal extends LinearOpMode {
                     if (colorSensor instanceof DistanceSensor) {
                         double distance = ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM);
                         telemetry.addData("Distance (cm)", "%.3f", distance);
-                        if ((distance < 3.25) && (hasCount == false)) {
+                        if ((distance < 3) && (hasCount == false)) {
                             hasCount = true;
                         }
-                        if ((distance > 3.25) && (hasCount == true)) {
+                        if ((distance > 3) && (hasCount == true)) {
                             count = count + 1;
                             hasCount = false;
+                        }
+                        if (count == 3){
                             intake.setPower(0);
                             ACE = false;
                         }

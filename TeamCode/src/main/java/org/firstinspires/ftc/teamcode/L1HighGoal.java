@@ -49,6 +49,8 @@ public class L1HighGoal extends LinearOpMode {
 
     //battery volt
     double bVoltage;
+    double highSpeed = 0.75;
+    double lowSpeed = 0.75;
 
     //Sensor count
     int count = 0;
@@ -135,7 +137,7 @@ public class L1HighGoal extends LinearOpMode {
                     /*goToPosition(1100, 0.6, 4);
                     sleep(250);
                     goToPosition(-150, 0.25, 3);*/
-                    goToPosition(2550, 0.65 , 3);
+                    goToPosition(2300, 0.65 , 3);
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
@@ -143,17 +145,17 @@ public class L1HighGoal extends LinearOpMode {
                     sleep(500);
                     goToPosition(-120,0.50, 7);
                     goToPosition(1250, 0.6, 5);
-
+//                  the orignial values are .665
                     if (bVoltage >= 12.8) {
-                        trigger(3000, 0.665);
-                        trigger(2000, 0.665);
-                        trigger(2000, 0.665);
+                        trigger(3000, lowSpeed);
+                        trigger(2000, lowSpeed);
+                        trigger(2000, lowSpeed);
                     }
                     else if (bVoltage < 12.8){
-                        //Don't forget to change the first tPower to .72
-                        trigger(3000, 0.72);
-                        trigger(2000, 0.72);
-                        trigger(2000, 0.72);
+                        //Don't forget to change the tPower to .73
+                        trigger(3000, highSpeed);
+                        trigger(2000, highSpeed);
+                        trigger(2000, highSpeed);
                     }
                     shooter.setPower(0);
                     goToPosition(700, 0.5, 3);
@@ -166,21 +168,23 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-150, 0.25, 3);*/
                     goToPosition(3300, 0.65, 3);
                     sleep(750);
-                    goToPosition(1200, 0.5, 5);
+                    goToPosition(1450, 0.5, 5);
                     sleep(500);
                     setWobble();
                     wobbleServo.setPosition(.75);
                     goToPosition(-1100, 0.5, 3);
                     goToPosition(-100,0.5,7);
+     //                  the orignial values are .665
                     if (bVoltage >= 12.8) {
-                        trigger(3000, 0.665);
-                        trigger(2000, 0.665);
-                        trigger(2000, 0.665);
+                        trigger(3000, lowSpeed);
+                        trigger(2000, lowSpeed);
+                        trigger(2000, lowSpeed);
                     }
+      //             the original value was .73
                     else if (bVoltage < 12.8){
-                        trigger(3000, 0.73);
-                        trigger(2000, 0.73);
-                        trigger(2000, 0.73);
+                        trigger(3000, highSpeed);
+                        trigger(2000, highSpeed);
+                        trigger(2000, highSpeed);
                     }
                     shooter.setPower(0);
                     shooterleftTarget = moveClark.topLeft.getTargetPosition();
@@ -190,12 +194,12 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-1000, 0.25, 3);
                     goToPosition(-1*newLeftTarget, 0.5, 3);
                     if (bVoltage >= 12.8) {
-                        trigger(3000, 0.665);
+                        trigger(3000, lowSpeed);
                     }
                     else if (bVoltage < 12.8){
-                        trigger(3000, 0.73);
+                        trigger(3000, highSpeed);
                     }
-                    goToPosition(500, 0.5, 3);
+                    goToPosition(1000, 0.5, 3);
                     break;
                 case 2:
                     //Go to C
@@ -207,25 +211,27 @@ public class L1HighGoal extends LinearOpMode {
                     sleep(250);
                     setWobble();
                     wobbleServo.setPosition(.75);
-                    goToPosition(-1850, 0.65, 3);
+                    goToPosition(-2100, 0.65, 3);
                     sleep(500);
                     goToPosition(1250, 0.6, 5);
                    // goToPosition(50, 0.25,6);
+        //                  the orignial values are .665
                     if (bVoltage >= 12.8) {
-                        trigger(3000, 0.665);
-                        trigger(2000, 0.665);
-                        trigger(2000, 0.665);
+                        trigger(3000, lowSpeed);
+                        trigger(2000, lowSpeed);
+                        trigger(2000, lowSpeed);
                     }
+      //                  the orignial values are .73
                     else if (bVoltage < 12.8){
-                        trigger(3000, 0.72);
-                        trigger(2000, 0.72);
-                        trigger(2000, 0.72);
+                        trigger(3000, highSpeed);
+                        trigger(2000, highSpeed);
+                        trigger(2000, highSpeed);
                     }
                     shooter.setPower(0);
                     shooterleftTarget = moveClark.topLeft.getTargetPosition();
                     shooterrightTarget = moveClark.topRight.getTargetPosition();
                     sleep(250);
-                    goToPosition(-1000, 1, 3);
+                    goToPosition(-500, 1, 3);
                     goToPosition(150, 0.5, 3);
                     sleep(250);
                     ACE = true;
@@ -233,15 +239,17 @@ public class L1HighGoal extends LinearOpMode {
                     goToPosition(-1*newLeftTarget, 0.5, 3);
                     intake.setPower(0);
                     goToPosition(-225,0.25,7);
+      //                  the orignial values are .665
                     if (bVoltage >= 12.8) {
-                        trigger(2000, 0.665);
-                        trigger(1500, 0.665);
-                        trigger(1500, 0.665);
+                        trigger(2000, lowSpeed);
+                        trigger(1500, lowSpeed);
+                        trigger(1500, lowSpeed);
                     }
+      //                  the orignial values are .73
                     else if (bVoltage < 12.8){
-                        trigger(2000, 0.72);
-                        trigger(1500, 0.72);
-                        trigger(1500, 0.72);
+                        trigger(2000, highSpeed);
+                        trigger(1500, highSpeed);
+                        trigger(1500, highSpeed);
                     }
                     ACE = false;
                     goToPosition(1300, 0.85, 3);
